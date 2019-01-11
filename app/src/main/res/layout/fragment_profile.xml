@@ -9,6 +9,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
+            android:orientation="vertical"
             android:background="@color/colorBackground">
 
 
@@ -17,6 +18,53 @@
                   android:text="PROFILE"
                   android:textColor="@color/textColor"/>
 
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Username"
+                  android:layout_margin="4dp"
+                  android:textColor="@color/textColor"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Username"
+                  android:layout_gravity="end"
+                  android:layout_margin="4dp"
+                  android:textColor="@color/textColor"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Email"
+                  android:layout_margin="4dp"
+                  android:textColor="@color/textColor"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end"
+                  android:text="Email"
+                  android:layout_margin="4dp"
+                  android:textColor="@color/textColor"/>
+
+
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:background="@drawable/border"
+                  android:hint="New Password"
+                android:layout_margin="4dp"
+                android:padding="4dp"/>
+
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:background="@drawable/border"
+                  android:hint="Confirm Password"
+                  android:layout_margin="4dp"
+                  android:padding="4dp"/>
+
+        <Button android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Reset"
+                  android:background="@drawable/border"
+                  android:layout_margin="4dp"
+                  android:padding="4dp"/>
 
     </LinearLayout>
 
