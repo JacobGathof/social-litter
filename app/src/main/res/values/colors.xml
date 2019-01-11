@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#cdf</color>
-    <color name="colorBackgound">#abe</color>
+    <color name="colorBackgound">#aabbee</color>
     <color name="colorBackgoundOutline">#8ad</color>
     <color name="colorButtonPressed">#68b</color>
     <color name="colorDark">#458</color>

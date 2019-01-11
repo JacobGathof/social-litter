@@ -5,4 +5,9 @@
     <string name="tab_text_3">Tab 3</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string-array name="sample_group_dropdown">
+        <item>Group1</item>
+        <item>Group2</item>
+        <item>Group3</item>
+    </string-array>
 </resources>
