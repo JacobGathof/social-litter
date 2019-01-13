@@ -18,6 +18,8 @@ class MessageFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_messages, container, false)
 
+
+
         var groups = Array<String>(3) {
             when (it) {
                 0 -> "Group1"
@@ -26,10 +28,10 @@ class MessageFragment : Fragment() {
             }
         }
 
-        var adapter = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, groups)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-
-        rootView.dropdown_group.adapter = adapter;
+//        var adapter = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, groups)
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+//
+//        rootView.dropdown_group.adapter = adapter;
 
         return rootView
     }
@@ -38,8 +40,8 @@ class MessageFragment : Fragment() {
 
         private val ARG_SECTION_NUMBER = "section_number"
 
-        fun newInstance(sectionNumber: Int): MainActivity.PlaceholderFragment {
-            val fragment = MainActivity.PlaceholderFragment()
+        fun newInstance(sectionNumber: Int): MessageFragment {
+            val fragment = MessageFragment()
             val args = Bundle()
             args.putInt(ARG_SECTION_NUMBER, sectionNumber)
             fragment.arguments = args

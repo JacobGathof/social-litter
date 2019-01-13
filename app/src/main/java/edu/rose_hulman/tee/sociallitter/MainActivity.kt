@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -35,16 +37,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
-        // Set up the ViewPager with the sections adapter.
-        container.adapter = mSectionsPagerAdapter
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
-        tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
-
+        if (savedInstanceState == null) {
+            changeFragment(PlaceholderFragment.newInstance(0))
+        }
     }
 
 
@@ -67,6 +65,37 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+
+        var navigateTo : Fragment? = null
+        when (item.itemId) {
+            R.id.navigation_group -> {
+                navigateTo = PlaceholderFragment.newInstance(1)
+            }
+            R.id.navigation_messages -> {
+                navigateTo = MessageFragment.newInstance(0)
+            }
+            R.id.navigation_profile -> {
+                navigateTo = PlaceholderFragment.newInstance(0)
+            }
+            R.id.navigation_map -> {
+                navigateTo = MapFragment.newInstance(0)
+            }
+        }
+
+        changeFragment(navigateTo)
+
+        true
+    }
+
+    fun changeFragment(frag : Fragment?) {
+        if (frag != null) {
+            val fragTrans = supportFragmentManager.beginTransaction()
+            fragTrans.replace(R.id.container, frag, "about")
+            fragTrans.commit()
+        }
+    }
+
 
     /**
      * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -77,8 +106,10 @@ class MainActivity : AppCompatActivity() {
         override fun getItem(position: Int): Fragment {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+            Log.d("QQQQQ", "Position: " + position)
             return when (position) {
                 2 -> MessageFragment.newInstance(position)
+                3 -> MapFragment.newInstance(position)
                 else -> PlaceholderFragment.newInstance(position)
             }
         }
@@ -87,7 +118,6 @@ class MainActivity : AppCompatActivity() {
             return 4
         }
     }
-
 
     class PlaceholderFragment : Fragment() {
 
