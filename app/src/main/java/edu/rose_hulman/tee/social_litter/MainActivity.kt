@@ -1,5 +1,8 @@
 package edu.rose_hulman.tee.social_litter
 
+import android.content.Context
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
@@ -12,8 +15,21 @@ import android.view.ViewGroup
 import edu.rose_hulman.tee.social_litter.MapFragment
 import edu.rose_hulman.tee.social_litter.MessageFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        var manager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        var locationService : LocationListener = LocationService()
+
+        //manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0.0f, locationService)
+
+    }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
@@ -96,10 +112,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-    }
 }
