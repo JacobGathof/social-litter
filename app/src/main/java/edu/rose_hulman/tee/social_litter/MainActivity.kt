@@ -1,13 +1,16 @@
 package edu.rose_hulman.tee.social_litter
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -26,8 +29,10 @@ class MainActivity : AppCompatActivity() {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         var manager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         var locationService : LocationListener = LocationService()
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0.0f, locationService)
+        }
 
-        //manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0.0f, locationService)
 
     }
 
