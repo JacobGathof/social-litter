@@ -1,4 +1,4 @@
-package edu.rose_hulman.tee.sociallitter
+package edu.rose_hulman.tee.social_litter
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("edu.rose_hulman.tee.sociallitter", appContext.packageName)
+        assertEquals("edu.rose_hulman.tee.social_litter", appContext.packageName)
     }
 }

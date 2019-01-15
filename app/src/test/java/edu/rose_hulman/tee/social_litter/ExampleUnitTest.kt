@@ -1,4 +1,4 @@
-package edu.rose_hulman.tee.sociallitter
+package edu.rose_hulman.tee.social_litter
 
 import org.junit.Test
 

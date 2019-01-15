@@ -1,4 +1,4 @@
-package edu.rose_hulman.tee.sociallitter
+package edu.rose_hulman.tee.social_litter
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -6,15 +6,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.fragment_map.*
-import kotlinx.android.synthetic.main.fragment_map.view.*
-import kotlinx.android.synthetic.main.fragment_messages.view.*
 import com.google.android.gms.maps.MapsInitializer
-
+import kotlinx.android.synthetic.main.fragment_map.view.*
 
 
 class MapFragment : Fragment(), OnMapReadyCallback{

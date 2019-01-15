@@ -1,4 +1,4 @@
-package edu.rose_hulman.tee.sociallitter
+package edu.rose_hulman.tee.social_litter
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
