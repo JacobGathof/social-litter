@@ -23,13 +23,15 @@ import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var locationService: LocationService
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         var manager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        var locationService : LocationListener = LocationService()
+        locationService = LocationService()
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0.0f, locationService)
         }else {
@@ -52,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                 navigateTo = PlaceholderFragment.newInstance(0)
             }
             R.id.navigation_map -> {
-                navigateTo = MapFragment.newInstance(0)
+                navigateTo = MapFragment.newInstance(locationService)
             }
         }
 
@@ -76,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
             return when (position) {
                 2 -> MessageFragment.newInstance(position)
-                3 -> MapFragment.newInstance(position)
+                3 -> MapFragment.newInstance(locationService)
                 else -> PlaceholderFragment.newInstance(position)
             }
         }
