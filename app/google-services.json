@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "769945783444",
+    "firebase_url": "https://social-litter.firebaseio.com",
+    "project_id": "social-litter",
+    "storage_bucket": "social-litter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769945783444:android:f94781446a2fb4cb",
+        "android_client_info": {
+          "package_name": "edu.rose_hulman.tee.sociallitter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "769945783444-qjn4rv9v48hegdcv3fa7ot9qqs8n3vcq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAa7INnZDSCsoD5v75btcIuWRM16mn42bY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
