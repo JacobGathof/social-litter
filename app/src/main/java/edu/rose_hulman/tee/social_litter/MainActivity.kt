@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        /*
+
         var manager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationService = LocationService()
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             var permissions = Array<String>(1){android.Manifest.permission.ACCESS_FINE_LOCATION}
             ActivityCompat.requestPermissions(this, permissions, 1)
         }
-        */
+
 
         Database.populateTestData()
     }
