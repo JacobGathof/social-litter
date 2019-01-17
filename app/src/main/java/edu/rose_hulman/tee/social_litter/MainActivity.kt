@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,9 +32,10 @@ class MainActivity : AppCompatActivity() {
         var locationService : LocationListener = LocationService()
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0.0f, locationService)
+        }else {
+            var permissions = Array<String>(1){android.Manifest.permission.ACCESS_FINE_LOCATION}
+            ActivityCompat.requestPermissions(this, permissions, 1)
         }
-
-
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

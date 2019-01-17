@@ -9,4 +9,5 @@
         <item>Group2</item>
         <item>Group3</item>
     </string-array>
+    <string name="title_activity_maps">Map</string>
 </resources>

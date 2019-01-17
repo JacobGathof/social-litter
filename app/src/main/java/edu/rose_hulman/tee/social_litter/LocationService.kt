@@ -3,6 +3,7 @@ package edu.rose_hulman.tee.social_litter
 import android.location.Location
 import android.location.LocationListener
 import android.os.Bundle
+import android.util.Log
 
 
 //The Location Service was created using the following tutorial
