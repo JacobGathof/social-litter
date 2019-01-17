@@ -53,7 +53,8 @@
             android:layout_marginTop="30dp"
             android:entries="@array/sample_group_dropdown"/>
 
-    <Button android:layout_width="wrap_content"
+    <Button android:id="@+id/post_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:layout_below="@id/dropdown_group"

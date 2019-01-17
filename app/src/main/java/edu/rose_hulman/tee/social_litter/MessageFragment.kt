@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import com.google.firebase.firestore.GeoPoint
 import kotlinx.android.synthetic.main.fragment_messages.view.*
 
 class MessageFragment : Fragment() {
@@ -19,6 +20,13 @@ class MessageFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_messages, container, false)
 
 
+        rootView.post_button.setOnClickListener{
+            val groupName = rootView.dropdown_group.selectedItem.toString()
+            val location = GeoPoint(0.0, 0.0)
+            val title = rootView.input_title.text.toString()
+            val body = rootView.input_message.text.toString()
+            Database.addMessage(Message(groupName, "Eric", title, body, location, 1.0f, 0))
+        }
 
         var groups = Array<String>(3) {
             when (it) {
