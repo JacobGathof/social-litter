@@ -11,12 +11,16 @@ class Database {
 
         private const val USERS_COLLECTION = "USERS_COLLECTION"
         private const val MESSAGES_COLLECTION = "MESSAGES_COLLECTION"
+        private const val GROUPS_COLLECTION = "GROUPS_COLLECTION"
 
         private const val USERNAME = "username"
         private const val EMAIL = "email"
         private const val PASSWORD = "password"
 
         private const val GROUP_NAME = "groupName"
+        private const val GROUP_DESC = "groupDesc"
+        private const val GROUP_PRIVACY = "groupPrivacy"
+
         private const val ORIGINAL_USER = "originalUser"
         private const val MESSAGE_TITLE = "messageTitle"
         private const val MESSAGE_TEXT = "messageText"
@@ -24,10 +28,12 @@ class Database {
         private const val RADIUS = "radius"
         private const val LIKES = "likes"
 
+        
 
         private val databaseRef = FirebaseFirestore.getInstance()
         private val usersRef = FirebaseFirestore.getInstance().collection(USERS_COLLECTION)
         private val messageRef = FirebaseFirestore.getInstance().collection(MESSAGES_COLLECTION)
+        private val groupRef = FirebaseFirestore.getInstance().collection(GROUPS_COLLECTION)
 
 
         fun populateTestData(){
@@ -40,12 +46,25 @@ class Database {
                 deleteAll(snap)
                 addMessage(Message("Group", "Eric", "Title", "Body", GeoPoint(0.0,0.0), 1.0f, 0))
             }
+
+            groupRef.get().addOnSuccessListener { snap->
+                deleteAll(snap)
+                addGroup(Group("Group", "Description", false))
+            }
         }
 
         private fun deleteAll(snap: QuerySnapshot){
             for(doc in snap.documents){
                 doc.reference.delete()
             }
+        }
+
+        fun addGroup(group : Group){
+            var data = HashMap<String, Any>()
+            data[GROUP_NAME] = group.groupName
+            data[GROUP_DESC] = group.description
+            data[GROUP_PRIVACY] = group.public
+            groupRef.add(data)
         }
 
         fun addUser(user : User){
@@ -70,9 +89,15 @@ class Database {
             messageRef.add(data)
         }
 
+
+        fun getAllMessagesByGroupName(groupName : String){
+            messageRef.whereEqualTo(GROUP_NAME, groupName).get().addOnSuccessListener { snap ->  
+
+            }
+        }
+
         fun usernameTaken(username : String) : Boolean{
             return false
-
         }
 
     }
