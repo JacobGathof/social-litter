@@ -45,10 +45,12 @@ class MapController(var map: GoogleMap, var context: Context) {
     fun moveUser(pos: LatLng) {
         userPos = pos
         userMarker.remove()
-        map.moveCamera(CameraUpdateFactory.newLatLng(userPos))
         userMarker = map.addMarker(MarkerOptions().position(userPos).title("Marker in Sydney"))
         userMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.round_gps_fixed_black_18dp))
+    }
 
+    fun centerOnUser() {
+        map.moveCamera(CameraUpdateFactory.newLatLng(userPos))
     }
 
     fun moveUser(loc: Location) {

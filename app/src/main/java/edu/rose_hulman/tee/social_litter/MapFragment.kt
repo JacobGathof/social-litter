@@ -48,7 +48,6 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         try {
             MapsInitializer.initialize(activity!!.applicationContext)
         } catch (e: Exception) {
-            Log.d("QQQQQ", "Initializer Failed")
             e.printStackTrace()
         }
 
