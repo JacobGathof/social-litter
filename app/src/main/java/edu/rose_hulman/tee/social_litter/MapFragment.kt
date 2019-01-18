@@ -62,7 +62,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
         mMap.setMinZoomPreference(mMap.minZoomLevel/4.0f)
 
-        val sydney = LatLng(-34.0, 151.0)
+        val sydney = LatLng(37.4220, -122.0840)
         marker = mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney").flat(true))
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))

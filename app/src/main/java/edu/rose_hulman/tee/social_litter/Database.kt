@@ -28,9 +28,8 @@ class Database {
         private const val RADIUS = "radius"
         private const val LIKES = "likes"
 
-        
 
-        private val databaseRef = FirebaseFirestore.getInstance()
+        //private val databaseRef = FirebaseFirestore.getInstance()
         private val usersRef = FirebaseFirestore.getInstance().collection(USERS_COLLECTION)
         private val messageRef = FirebaseFirestore.getInstance().collection(MESSAGES_COLLECTION)
         private val groupRef = FirebaseFirestore.getInstance().collection(GROUPS_COLLECTION)
@@ -44,12 +43,14 @@ class Database {
 
             messageRef.get().addOnSuccessListener { snap->
                 deleteAll(snap)
-                addMessage(Message("Group", "Eric", "Title", "Body", GeoPoint(0.0,0.0), 1.0f, 0))
+                addMessage(Message("Global", "Eric", "Title", "Body", GeoPoint(0.0,0.0), 1.0f, 0))
+                addMessage(Message("Global", "Jake", "Title2", "Body2", GeoPoint(0.0,0.0), 1.0f, 0))
+                addMessage(Message("Global", "Chris", "Runescape", "Test", GeoPoint(0.0,0.0), 1.0f, 0))
             }
 
             groupRef.get().addOnSuccessListener { snap->
                 deleteAll(snap)
-                addGroup(Group("Group", "Description", false))
+                addGroup(Group("Global", "Description", true))
             }
         }
 
