@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout
+            android:id="@+id/title_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/title"
+                android:text="Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_margin="10dp"/>
+
+        <ToggleButton
+                android:id="@+id/likes"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="50dp"
+                android:textOn=""
+                android:textOff=""
+                android:background="@drawable/ic_like_toggle"/>
+
+        <TextView
+                android:id="@+id/like_counter"
+                android:text="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"/>
+
+    </LinearLayout>
+
+
+
+    <TextView
+            android:id="@+id/message_text"
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="114dp"
+            android:layout_alignParentTop="true"
+            android:textSize="18sp"
+            android:layout_marginTop="64dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/message_text"
+            android:layout_marginLeft="10dp"
+            >
+        <TextView
+                android:text="Group:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:id="@+id/group"/>
+        <TextView
+                android:id="@+id/group_name"
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_marginLeft="10dp"/>
+    </LinearLayout>
+</RelativeLayout>

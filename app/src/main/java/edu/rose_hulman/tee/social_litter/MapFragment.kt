@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.Marker
+import com.google.firebase.firestore.GeoPoint
 import kotlinx.android.synthetic.main.fragment_map.view.*
 
 
@@ -58,21 +59,16 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        locationService.addMap(this)
+        var mapController = MapController(googleMap, this.context!!)
+        locationService.addMap(mapController)
 
         mMap.setMinZoomPreference(mMap.minZoomLevel/4.0f)
 
-        val sydney = LatLng(37.4220, -122.0840)
-        marker = mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney").flat(true))
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-    }
-
-    fun updatePosition(location: Location) {
-        val loc = LatLng(location.latitude, location.longitude)
-        marker?.remove()
-        mMap?.moveCamera(CameraUpdateFactory.newLatLng(loc))
-        marker = mMap.addMarker(MarkerOptions().position(loc).title("Marker in Sydney").flat(true))
+        mapController.addMessageMarker(
+            Message("Group1", "me", "Title",
+            "Test Message", GeoPoint(10.0, 10.0), 20f, 0
+            )
+        )
     }
 
     companion object {

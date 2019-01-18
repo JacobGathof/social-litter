@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.LatLng
 class LocationService() : LocationListener, Parcelable{
 
 
-    var map: MapFragment? = null
+    var map: MapController? = null
 
     constructor(parcel: Parcel) : this() {
 
@@ -26,7 +26,7 @@ class LocationService() : LocationListener, Parcelable{
 
     override fun onLocationChanged(location: Location?) {
         if (location != null) {
-            map?.updatePosition(location)
+            map?.moveUser(location)
 
         }
     }
@@ -43,7 +43,7 @@ class LocationService() : LocationListener, Parcelable{
 
     }
 
-    fun addMap(map: MapFragment) {
+    fun addMap(map: MapController) {
         this.map = map
     }
 
