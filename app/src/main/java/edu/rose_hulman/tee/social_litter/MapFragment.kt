@@ -31,6 +31,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         arguments.let {
             locationService = it!!.getParcelable(ARG_LOCATION)
         }
+
     }
 
     override fun onCreateView(
@@ -63,11 +64,6 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
         mMap.setMinZoomPreference(mMap.minZoomLevel/4.0f)
 
-        mapController.addMessageMarker(
-            Message("Group1", "me", "Title",
-            "Test Message", GeoPoint(10.0, 10.0), 20.0, 0
-            )
-        )
     }
 
     companion object {

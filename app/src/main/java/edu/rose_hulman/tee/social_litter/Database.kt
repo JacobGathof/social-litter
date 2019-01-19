@@ -1,5 +1,7 @@
 package edu.rose_hulman.tee.social_litter
 
+import android.util.Log
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.QuerySnapshot
@@ -35,6 +37,9 @@ class Database {
         private val groupRef = FirebaseFirestore.getInstance().collection(GROUPS_COLLECTION)
 
 
+        private var groupMessageMap = HashMap<String, ArrayList<Message>>()
+
+
         fun populateTestData(){
             usersRef.get().addOnSuccessListener { snap->
                 deleteAll(snap)
@@ -43,15 +48,20 @@ class Database {
 
             messageRef.get().addOnSuccessListener { snap->
                 deleteAll(snap)
-                addMessage(Message("Global", "Eric", "Title", "Body", GeoPoint(0.0,0.0), 1.0, 0))
-                addMessage(Message("Global", "Jake", "Title2", "Body2", GeoPoint(0.0,0.0), 1.0, 0))
+                addMessage(Message("Global", "Eric", "Title", "Body", GeoPoint(4.0,4.0), 1.0, 0))
+                addMessage(Message("Global", "Jake", "Title2", "Body2", GeoPoint(0.0,4.0), 1.0, 0))
                 addMessage(Message("Global", "Chris", "Runescape", "Test", GeoPoint(0.0,0.0), 1.0, 0))
+
+                addMessage(Message("NotGlobal", "Chris", "Runescape", "Test", GeoPoint(7.0,0.0), 1.0, 0))
+                addMessage(Message("NotGlobal", "Chris", "Runescape", "Test", GeoPoint(0.0,7.0), 1.0, 0))
+                addMessage(Message("NotGlobal", "Chris", "Runescape", "Test", GeoPoint(-7.0,0.0), 1.0, 0))
             }
 
             groupRef.get().addOnSuccessListener { snap->
                 deleteAll(snap)
                 addGroup(Group("Global", "Description", true))
             }
+
         }
 
         private fun deleteAll(snap: QuerySnapshot){
@@ -92,26 +102,46 @@ class Database {
 
 
         fun addNewMessageListener(mapController : MapController){
-            messageRef.addSnapshotListener{querySnapshot, firebaseFirestoreException ->
-                getAllMessagesByGroupName("Global", mapController)
+            messageRef.addSnapshotListener{_,_ ->
+                getAllMessagesForAllGroups(mapController)
             }
         }
 
+
+        fun getAllMessagesForAllGroups(mapController: MapController){
+            messageRef.get().addOnSuccessListener { snap ->
+                for(data in snap.documents){
+
+                    val groupName = data[GROUP_NAME] as String
+                    val message = createMessageFromSnapshot(data)
+
+                    if(groupMessageMap.containsKey(groupName)){
+                        groupMessageMap[groupName]!!.add(message)
+                    }else{
+                        groupMessageMap[groupName] = ArrayList()
+                        groupMessageMap[groupName]!!.add(message)
+                    }
+                }
+
+                Log.d("QQQ","HERE")
+                mapController.updateMessageMap()
+
+            }
+        }
+
+
+        fun getMessageList(key : String) : ArrayList<Message>? {
+            return groupMessageMap[key]
+        }
+
         fun getAllMessagesByGroupName(groupName : String, mapController : MapController){
-            messageRef.whereEqualTo(GROUP_NAME, groupName).get().addOnSuccessListener { snap ->  
+
+            messageRef.whereEqualTo(GROUP_NAME, groupName).get().addOnSuccessListener { snap ->
 
                 val messages = ArrayList<Message>()
                 for(data in snap.documents){
-                    val message = Message(
-                        data[GROUP_NAME] as String,
-                        data[ORIGINAL_USER] as String,
-                        data[MESSAGE_TITLE] as String,
-                        data[MESSAGE_TEXT] as String,
-                        data[LOCATION] as GeoPoint,
-                        data[RADIUS] as Double,
-                        (data[LIKES] as Long).toInt()
-                    )
 
+                    val message = createMessageFromSnapshot(data)
                     messages.add(message)
 
                     mapController.addMessageMarker(message)
@@ -119,8 +149,17 @@ class Database {
             }
         }
 
-        fun usernameTaken(username : String) : Boolean{
-            return false
+
+        private fun createMessageFromSnapshot(data : DocumentSnapshot) : Message{
+            return Message(
+                data[GROUP_NAME] as String,
+                data[ORIGINAL_USER] as String,
+                data[MESSAGE_TITLE] as String,
+                data[MESSAGE_TEXT] as String,
+                data[LOCATION] as GeoPoint,
+                data[RADIUS] as Double,
+                (data[LIKES] as Long).toInt()
+            )
         }
 
     }

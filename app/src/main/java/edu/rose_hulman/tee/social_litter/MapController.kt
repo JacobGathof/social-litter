@@ -2,12 +2,15 @@ package edu.rose_hulman.tee.social_litter
 
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
 import android.location.Location
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
+import com.google.firebase.firestore.GeoPoint
 import kotlinx.android.synthetic.main.message_popup.view.*
 
 
@@ -16,6 +19,7 @@ class MapController(var map: GoogleMap, var context: Context) {
     var userPos: LatLng = LatLng(10.0, 20.0)
     lateinit var userMarker: Marker
     var markerMap: HashMap<Message, Marker> = HashMap()
+    var messageMap = MessageMap()
 
     init{
         userMarker = map.addMarker(MarkerOptions().position(userPos).title("Marker in Sydney"))
@@ -48,6 +52,8 @@ class MapController(var map: GoogleMap, var context: Context) {
         userMarker.remove()
         userMarker = map.addMarker(MarkerOptions().position(userPos).title("Marker in Sydney"))
         userMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.round_gps_fixed_black_18dp))
+        map.addCircle(CircleOptions().center(userPos).radius(10000.0)
+            .fillColor(Color.rgb(255,200,200)).strokeColor(Color.rgb(200, 150, 150)))
     }
 
     fun centerOnUser() {
@@ -67,6 +73,14 @@ class MapController(var map: GoogleMap, var context: Context) {
 
     fun removeMarker(message: Message) {
         markerMap.remove(message)
+    }
+
+
+    fun updateMessageMap(){
+        var groups = ArrayList<String>()
+        groups.add("Global")
+        Log.d("QQQ", "Update")
+        messageMap.setGroups(groups, map)
     }
 
 }
