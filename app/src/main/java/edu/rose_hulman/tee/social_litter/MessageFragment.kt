@@ -25,7 +25,7 @@ class MessageFragment : Fragment() {
             val location = GeoPoint(0.0, 0.0)
             val title = rootView.input_title.text.toString()
             val body = rootView.input_message.text.toString()
-            Database.addMessage(Message(groupName, "Eric", title, body, location, 1.0f, 0))
+            Database.addMessage(Message(groupName, "Eric", title, body, location, 1.0, 0))
         }
 
         var groups = Array<String>(3) {

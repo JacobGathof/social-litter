@@ -8,7 +8,7 @@ class Message(
     var messageTitle : String,
     var messageText : String,
     var location : GeoPoint,
-    var radius : Float,
+    var radius : Double,
     var likes : Int) {
 
 }

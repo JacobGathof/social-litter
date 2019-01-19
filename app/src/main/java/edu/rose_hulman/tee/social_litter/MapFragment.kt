@@ -66,7 +66,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
         mapController.addMessageMarker(
             Message("Group1", "me", "Title",
-            "Test Message", GeoPoint(10.0, 10.0), 20f, 0
+            "Test Message", GeoPoint(10.0, 10.0), 20.0, 0
             )
         )
     }

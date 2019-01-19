@@ -43,9 +43,9 @@ class Database {
 
             messageRef.get().addOnSuccessListener { snap->
                 deleteAll(snap)
-                addMessage(Message("Global", "Eric", "Title", "Body", GeoPoint(0.0,0.0), 1.0f, 0))
-                addMessage(Message("Global", "Jake", "Title2", "Body2", GeoPoint(0.0,0.0), 1.0f, 0))
-                addMessage(Message("Global", "Chris", "Runescape", "Test", GeoPoint(0.0,0.0), 1.0f, 0))
+                addMessage(Message("Global", "Eric", "Title", "Body", GeoPoint(0.0,0.0), 1.0, 0))
+                addMessage(Message("Global", "Jake", "Title2", "Body2", GeoPoint(0.0,0.0), 1.0, 0))
+                addMessage(Message("Global", "Chris", "Runescape", "Test", GeoPoint(0.0,0.0), 1.0, 0))
             }
 
             groupRef.get().addOnSuccessListener { snap->
@@ -91,9 +91,31 @@ class Database {
         }
 
 
-        fun getAllMessagesByGroupName(groupName : String){
+        fun addNewMessageListener(mapController : MapController){
+            messageRef.addSnapshotListener{querySnapshot, firebaseFirestoreException ->
+                getAllMessagesByGroupName("Global", mapController)
+            }
+        }
+
+        fun getAllMessagesByGroupName(groupName : String, mapController : MapController){
             messageRef.whereEqualTo(GROUP_NAME, groupName).get().addOnSuccessListener { snap ->  
 
+                val messages = ArrayList<Message>()
+                for(data in snap.documents){
+                    val message = Message(
+                        data[GROUP_NAME] as String,
+                        data[ORIGINAL_USER] as String,
+                        data[MESSAGE_TITLE] as String,
+                        data[MESSAGE_TEXT] as String,
+                        data[LOCATION] as GeoPoint,
+                        data[RADIUS] as Double,
+                        (data[LIKES] as Long).toInt()
+                    )
+
+                    messages.add(message)
+
+                    mapController.addMessageMarker(message)
+                }
             }
         }
 

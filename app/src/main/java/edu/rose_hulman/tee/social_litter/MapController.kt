@@ -20,6 +20,7 @@ class MapController(var map: GoogleMap, var context: Context) {
     init{
         userMarker = map.addMarker(MarkerOptions().position(userPos).title("Marker in Sydney"))
         userMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.round_gps_fixed_black_18dp))
+        Database.addNewMessageListener(this)
         map.setOnMarkerClickListener { marker: Marker? ->
             if (marker == null) {
                 return@setOnMarkerClickListener false
