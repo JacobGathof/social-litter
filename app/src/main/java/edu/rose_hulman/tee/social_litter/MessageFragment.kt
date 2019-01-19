@@ -22,7 +22,7 @@ class MessageFragment : Fragment() {
 
         rootView.post_button.setOnClickListener{
             val groupName = rootView.dropdown_group.selectedItem.toString()
-            val location = GeoPoint(0.0, 0.0)
+            val location = GeoPoint(5.0, 5.0)
             val title = rootView.input_title.text.toString()
             val body = rootView.input_message.text.toString()
             Database.addMessage(Message(groupName, "Eric", title, body, location, 1.0, 0))

@@ -6,10 +6,9 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -25,6 +24,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     private lateinit var mapFragment: MapView
     private lateinit var locationService: LocationService
     var marker: Marker? = null
+    var mapController : MapController? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +40,13 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_map, container, false)
 
+        setHasOptionsMenu(true)
+
         mapFragment = rootView.map
         mapFragment.onCreate(savedInstanceState)
         mapFragment.onResume()
         mapFragment.getMapAsync(this)
+
 
 
         try {
@@ -56,11 +59,56 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         return rootView
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.settings, menu)
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.navigation_filter -> {
+                createFilterDialog()
+            }
+            else -> { }
+        }
+        return true
+    }
+
+    fun createFilterDialog(){
+        val builder = AlertDialog.Builder(context!!)
+
+        val groups = arrayOf("Global", "NotGlobal")
+        val groupsChecked = booleanArrayOf(true, false)
+
+        builder.setMultiChoiceItems(groups, groupsChecked){dialog, which, isChecked ->
+            groupsChecked[which] = isChecked
+        }
+
+
+        builder.setTitle("Filter")
+
+        // Set the positive/yes button click listener
+        builder.setPositiveButton("OK"){dialog, _ ->
+            var list = ArrayList<String>()
+            for (i in 0 until groups.size) {
+                val checked = groupsChecked[i]
+                if (checked) {
+                    list.add(groups[i])
+                }
+            }
+            mapController!!.updateMessageMap(list)
+        }
+
+        builder.setNeutralButton("Cancel", null)
+        builder.create().show()
+
+    }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        var mapController = MapController(googleMap, this.context!!)
-        locationService.addMap(mapController)
+        mapController = MapController(googleMap, this.context!!)
+        locationService.addMap(mapController!!)
 
         mMap.setMinZoomPreference(mMap.minZoomLevel/4.0f)
 

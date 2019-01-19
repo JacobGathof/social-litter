@@ -76,11 +76,8 @@ class MapController(var map: GoogleMap, var context: Context) {
     }
 
 
-    fun updateMessageMap(){
-        var groups = ArrayList<String>()
-        groups.add("Global")
-        Log.d("QQQ", "Update")
-        messageMap.setGroups(groups, map)
+    fun updateMessageMap(list : ArrayList<String>){
+        messageMap.setGroups(list, map)
     }
 
 }

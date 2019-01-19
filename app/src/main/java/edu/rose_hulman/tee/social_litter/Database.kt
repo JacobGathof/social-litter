@@ -123,8 +123,9 @@ class Database {
                     }
                 }
 
-                Log.d("QQQ","HERE")
-                mapController.updateMessageMap()
+                val l = ArrayList<String>()
+                l.add("Global")
+                mapController.updateMessageMap(l)
 
             }
         }
