@@ -27,7 +27,6 @@ class LocationService() : LocationListener, Parcelable{
     override fun onLocationChanged(location: Location?) {
         if (location != null) {
             map?.moveUser(location)
-
         }
     }
 
