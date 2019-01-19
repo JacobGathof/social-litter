@@ -11,11 +11,17 @@ class MessageMap {
     private var map = HashMap<String, ArrayList<Marker>>()
 
     fun setGroups(groups : ArrayList<String>, gMap : GoogleMap){
+        var keyRemoval = ArrayList<String>()
         for(key in map.keys){
             if(!groups.contains(key)){
                 removeMarkers(key)
+                keyRemoval.add(key)
             }
         }
+        for(key in keyRemoval){
+            map.remove(key)
+        }
+
         for(str in groups){
             if(!map.containsKey(str)){
                 addMarkers(str, gMap)
@@ -30,8 +36,6 @@ class MessageMap {
             for (marker in list) {
                 marker.remove()
             }
-
-            map.remove(key)
         }
     }
 
@@ -40,12 +44,16 @@ class MessageMap {
         val newList = Database.getMessageList(key)
         if(newList != null) {
             for (message in newList) {
-                val position = LatLng(message.location.latitude, message.location.longitude)
-                val marker = gMap.addMarker(MarkerOptions().position(position).title(message.messageTitle))
-
-
-                map[key]!!.add(marker)
+                addMessage(key, message, gMap)
             }
+        }
+    }
+
+    fun addMessage(key : String, message : Message, gMap : GoogleMap){
+        val position = LatLng(message.location.latitude, message.location.longitude)
+        if(map[key] != null) {
+            val marker = gMap.addMarker(MarkerOptions().position(position).title(message.messageTitle))
+            map[key]!!.add(marker)
         }
     }
 

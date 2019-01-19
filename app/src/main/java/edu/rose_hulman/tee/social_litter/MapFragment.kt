@@ -79,9 +79,12 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         val builder = AlertDialog.Builder(context!!)
 
         val groups = arrayOf("Global", "NotGlobal")
-        val groupsChecked = booleanArrayOf(true, false)
+        var groupsChecked = ArrayList<Boolean>()
+        for(str in groups){
+            groupsChecked.add(mapController!!.filterList!!.contains(str))
+        }
 
-        builder.setMultiChoiceItems(groups, groupsChecked){dialog, which, isChecked ->
+        builder.setMultiChoiceItems(groups, groupsChecked.toBooleanArray()){dialog, which, isChecked ->
             groupsChecked[which] = isChecked
         }
 
@@ -97,7 +100,9 @@ class MapFragment : Fragment(), OnMapReadyCallback{
                     list.add(groups[i])
                 }
             }
-            mapController!!.updateMessageMap(list)
+
+            mapController!!.setFilter(list)
+            mapController!!.updateMessageMap()
         }
 
         builder.setNeutralButton("Cancel", null)

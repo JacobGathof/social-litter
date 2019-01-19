@@ -102,8 +102,16 @@ class Database {
 
 
         fun addNewMessageListener(mapController : MapController){
-            messageRef.addSnapshotListener{_,_ ->
-                getAllMessagesForAllGroups(mapController)
+            messageRef.addSnapshotListener{snap, _ ->
+                if(snap != null) {
+                    for (doc in snap.documentChanges) {
+                        val groupName = doc.document[GROUP_NAME] as String
+                        val message = createMessageFromSnapshot(doc.document)
+                        addMessageToMap(groupName, message)
+
+                        mapController.updateMessageMap(groupName, message)
+                    }
+                }
             }
         }
 
@@ -114,19 +122,20 @@ class Database {
 
                     val groupName = data[GROUP_NAME] as String
                     val message = createMessageFromSnapshot(data)
+                    addMessageToMap(groupName, message)
 
-                    if(groupMessageMap.containsKey(groupName)){
-                        groupMessageMap[groupName]!!.add(message)
-                    }else{
-                        groupMessageMap[groupName] = ArrayList()
-                        groupMessageMap[groupName]!!.add(message)
-                    }
                 }
 
-                val l = ArrayList<String>()
-                l.add("Global")
-                mapController.updateMessageMap(l)
+                mapController.updateMessageMap()
+            }
+        }
 
+        fun addMessageToMap(groupName: String, message : Message){
+            if(groupMessageMap.containsKey(groupName)){
+                groupMessageMap[groupName]!!.add(message)
+            }else{
+                groupMessageMap[groupName] = ArrayList()
+                groupMessageMap[groupName]!!.add(message)
             }
         }
 

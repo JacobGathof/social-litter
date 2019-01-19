@@ -20,10 +20,12 @@ class MapController(var map: GoogleMap, var context: Context) {
     lateinit var userMarker: Marker
     var markerMap: HashMap<Message, Marker> = HashMap()
     var messageMap = MessageMap()
+    var filterList = ArrayList<String>()
 
     init{
         userMarker = map.addMarker(MarkerOptions().position(userPos).title("Marker in Sydney"))
         userMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.round_gps_fixed_black_18dp))
+        Database.getAllMessagesForAllGroups(this)
         Database.addNewMessageListener(this)
         map.setOnMarkerClickListener { marker: Marker? ->
             if (marker == null) {
@@ -76,8 +78,17 @@ class MapController(var map: GoogleMap, var context: Context) {
     }
 
 
-    fun updateMessageMap(list : ArrayList<String>){
-        messageMap.setGroups(list, map)
+    fun setFilter(filter : ArrayList<String>){
+        filterList.clear()
+        filterList.addAll(filter)
+    }
+
+    fun updateMessageMap(){
+        messageMap.setGroups(filterList, map)
+    }
+
+    fun updateMessageMap(groupName : String, message : Message){
+        messageMap.addMessage(groupName, message, map)
     }
 
 }
