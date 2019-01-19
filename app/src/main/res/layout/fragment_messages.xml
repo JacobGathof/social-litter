@@ -45,7 +45,7 @@
 
     <Spinner
             android:id="@+id/dropdown_group"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/input_message"
             android:layout_alignLeft="@id/input_message"
@@ -53,11 +53,24 @@
             android:layout_marginTop="30dp"
             android:entries="@array/sample_group_dropdown"/>
 
+    <EditText
+            android:id="@+id/radius"
+            android:layout_width="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dropdown_group"
+            android:layout_alignLeft="@id/page_title"
+            android:hint="Radius"
+            android:layout_marginRight="30dp"
+            android:background="@color/colorPrimary"
+            android:layout_marginTop="30dp"
+            android:inputType="number"/>
+
     <Button android:id="@+id/post_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:layout_below="@id/dropdown_group"
+            android:layout_below="@id/radius"
             android:layout_alignRight="@id/dropdown_group"
             android:layout_marginTop="50dp"
             android:text="POST"/>

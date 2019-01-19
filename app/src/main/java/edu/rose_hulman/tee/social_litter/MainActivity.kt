@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                 navigateTo = PlaceholderFragment.newInstance(1)
             }
             R.id.navigation_messages -> {
-                navigateTo = MessageFragment.newInstance(0)
+                navigateTo = MessageFragment.newInstance(locationService)
             }
             R.id.navigation_profile -> {
                 navigateTo = PlaceholderFragment.newInstance(0)
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         override fun getItem(position: Int): Fragment {
 
             return when (position) {
-                2 -> MessageFragment.newInstance(position)
+                2 -> MessageFragment.newInstance(locationService)
                 3 -> MapFragment.newInstance(locationService)
                 else -> PlaceholderFragment.newInstance(position)
             }

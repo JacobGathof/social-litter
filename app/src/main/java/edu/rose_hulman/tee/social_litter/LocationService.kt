@@ -19,6 +19,7 @@ class LocationService() : LocationListener, Parcelable{
 
 
     var map: MapController? = null
+    var location: Location? = null
 
     constructor(parcel: Parcel) : this() {
 
@@ -27,6 +28,7 @@ class LocationService() : LocationListener, Parcelable{
     override fun onLocationChanged(location: Location?) {
         if (location != null) {
             map?.moveUser(location)
+            this.location = location
         }
     }
 
@@ -44,6 +46,13 @@ class LocationService() : LocationListener, Parcelable{
 
     fun addMap(map: MapController) {
         this.map = map
+    }
+
+    fun getLocation() : LatLng {
+        if (location != null) {
+            return LatLng(location!!.latitude, location!!.longitude)
+        }
+        return LatLng(10.0, 10.0)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

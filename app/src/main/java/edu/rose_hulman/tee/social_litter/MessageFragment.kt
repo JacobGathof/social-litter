@@ -12,6 +12,15 @@ import kotlinx.android.synthetic.main.fragment_messages.view.*
 
 class MessageFragment : Fragment() {
 
+    private lateinit var locationService: LocationService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments.let {
+            locationService = it!!.getParcelable(MessageFragment.ARG_LOCATION)
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,10 +31,11 @@ class MessageFragment : Fragment() {
 
         rootView.post_button.setOnClickListener{
             val groupName = rootView.dropdown_group.selectedItem.toString()
-            val location = GeoPoint(5.0, 5.0)
+            val location = GeoPoint(locationService.getLocation().latitude, locationService.getLocation().longitude)
             val title = rootView.input_title.text.toString()
             val body = rootView.input_message.text.toString()
-            Database.addMessage(Message(groupName, "Eric", title, body, location, 1.0, 0))
+            val radius = rootView.radius.text.toString().toDouble()
+            Database.addMessage(Message(groupName, "Eric", title, body, location, radius, 0))
         }
 
         var groups = Array<String>(3) {
@@ -46,12 +56,12 @@ class MessageFragment : Fragment() {
 
     companion object {
 
-        private val ARG_SECTION_NUMBER = "section_number"
+        private val ARG_LOCATION = "section_number"
 
-        fun newInstance(sectionNumber: Int): MessageFragment {
+        fun newInstance(locationService: LocationService): MessageFragment {
             val fragment = MessageFragment()
             val args = Bundle()
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber)
+            args.putParcelable(ARG_LOCATION, locationService)
             fragment.arguments = args
             return fragment
         }
