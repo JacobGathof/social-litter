@@ -8,7 +8,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 class MessageMap {
 
-    private var map = HashMap<String, ArrayList<Marker>>()
+    private var map = HashMap<String, ArrayList<Pair<Message, Marker>>>()
 
     fun setGroups(groups : ArrayList<String>, gMap : GoogleMap){
         var keyRemoval = ArrayList<String>()
@@ -34,7 +34,7 @@ class MessageMap {
         val list = map[key]
         if(list != null) {
             for (marker in list) {
-                marker.remove()
+                marker.second.remove()
             }
         }
     }
@@ -53,8 +53,12 @@ class MessageMap {
         val position = LatLng(message.location.latitude, message.location.longitude)
         if(map[key] != null) {
             val marker = gMap.addMarker(MarkerOptions().position(position).title(message.messageTitle))
-            map[key]!!.add(marker)
+            map[key]!!.add(Pair(message,marker))
         }
+    }
+
+    fun getMap() : HashMap<String, ArrayList<Pair<Message, Marker>>>{
+        return map
     }
 
 }

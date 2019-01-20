@@ -31,20 +31,24 @@ class MapController(var map: GoogleMap, var context: Context) {
             if (marker == null) {
                 return@setOnMarkerClickListener false
             }
-            for ((message, mark) in markerMap.entries) {
-                if (mark == marker) {
+            for(list in messageMap.getMap().values){
+                for(pair in list){
+                    if(pair.second == marker){
+                        val message = pair.first
 
-                    var builder = AlertDialog.Builder(context)
-                    var rootView = LayoutInflater.from(context).inflate(R.layout.message_popup, null, false)
-                    rootView.title.text = message.messageTitle
-                    rootView.like_counter.text = message.likes.toString()
-                    rootView.message_text.text = message.messageText
-                    rootView.group_name.text = message.groupName
-                    builder.setView(rootView)
-                        .create().show()
-                    break
+                        var builder = AlertDialog.Builder(context)
+                        var rootView = LayoutInflater.from(context).inflate(R.layout.message_popup, null, false)
+                        rootView.title.text = message.messageTitle
+                        rootView.like_counter.text = message.likes.toString()
+                        rootView.message_text.text = message.messageText
+                        rootView.group_name.text = message.groupName
+                        builder.setView(rootView)
+                            .create().show()
+                        break
+                    }
                 }
             }
+
             true
         }
     }
