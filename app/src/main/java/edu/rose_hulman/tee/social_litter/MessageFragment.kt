@@ -35,6 +35,9 @@ class MessageFragment : Fragment() {
             val title = rootView.input_title.text.toString()
             val body = rootView.input_message.text.toString()
             val radius = rootView.radius.text.toString().toDouble()
+            rootView.input_title.setText("")
+            rootView.input_message.setText("")
+            rootView.radius.setText("")
             Database.addMessage(Message(groupName, "Eric", title, body, location, radius, 0))
         }
 
