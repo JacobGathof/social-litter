@@ -33,8 +33,8 @@ class MapController(var map: GoogleMap, var context: Context) {
             }
             for(list in messageMap.getMap().values){
                 for(pair in list){
-                    if(pair.second == marker){
-                        val message = pair.first
+                    if(pair.marker == marker){
+                        val message = pair.message
 
                         var builder = AlertDialog.Builder(context)
                         var rootView = LayoutInflater.from(context).inflate(R.layout.message_popup, null, false)

@@ -2,13 +2,14 @@ package edu.rose_hulman.tee.social_litter
 
 import android.util.Log
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
 class MessageMap {
 
-    private var map = HashMap<String, ArrayList<Pair<Message, Marker>>>()
+    private var map = HashMap<String, ArrayList<MessageMarker>>()
 
     fun setGroups(groups : ArrayList<String>, gMap : GoogleMap){
         var keyRemoval = ArrayList<String>()
@@ -34,7 +35,7 @@ class MessageMap {
         val list = map[key]
         if(list != null) {
             for (marker in list) {
-                marker.second.remove()
+                marker.remove()
             }
         }
     }
@@ -53,11 +54,12 @@ class MessageMap {
         val position = LatLng(message.location.latitude, message.location.longitude)
         if(map[key] != null) {
             val marker = gMap.addMarker(MarkerOptions().position(position).title(message.messageTitle))
-            map[key]!!.add(Pair(message,marker))
+            var circle = gMap.addCircle(CircleOptions().center(position).radius(message.radius).fillColor(R.color.blue_7))
+            map[key]!!.add(MessageMarker(message, marker, circle))
         }
     }
 
-    fun getMap() : HashMap<String, ArrayList<Pair<Message, Marker>>>{
+    fun getMap() : HashMap<String, ArrayList<MessageMarker>>{
         return map
     }
 
