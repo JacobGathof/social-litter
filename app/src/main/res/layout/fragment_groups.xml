@@ -5,33 +5,55 @@
         android:layout_height="match_parent"
         android:background="@color/colorBackgroundOutline">
 
-    <LinearLayout
+    <View
+            android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:background="@color/colorBackground"/>
+
+    <LinearLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:padding="8dp"
-            android:orientation="vertical"
-            android:background="@color/colorBackground">
+            android:orientation="horizontal"
+            android:layout_alignLeft="@id/background"
+            android:layout_alignRight="@id/background"
+            android:layout_alignTop="@id/background">
 
 
-        <ImageView
+        <Button android:id="@+id/join_toggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher_round"/>
+                android:text="@string/join_group"
+                />
 
-
-        <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler"
+        <Button android:id="@+id/my_groups"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:text="My Groups"
+        />
 
-
-        </android.support.v7.widget.RecyclerView>
-
+        <Button android:id="@+id/add_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"/>
 
     </LinearLayout>
 
 
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tabs"
+            android:layout_alignLeft="@id/background"
+            android:layout_alignBottom="@id/background">
+
+
+    </android.support.v7.widget.RecyclerView>
 
 
 </RelativeLayout>

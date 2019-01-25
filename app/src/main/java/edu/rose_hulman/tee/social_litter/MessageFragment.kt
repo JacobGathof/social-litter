@@ -49,10 +49,10 @@ class MessageFragment : Fragment() {
             }
         }
 
-//        var adapter = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, groups)
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+//        var adapterMy = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, groups)
+//        adapterMy.setDropDownViewResource(android.R.layout.simple_spinner_item);
 //
-//        rootView.dropdown_group.adapter = adapter;
+//        rootView.dropdown_group.adapterMy = adapterMy;
 
         return rootView
     }

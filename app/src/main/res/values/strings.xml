@@ -9,4 +9,5 @@
         <item>NotGlobal</item>
     </string-array>
     <string name="title_activity_maps">Map</string>
+    <string name="join_group">Join Group</string>
 </resources>

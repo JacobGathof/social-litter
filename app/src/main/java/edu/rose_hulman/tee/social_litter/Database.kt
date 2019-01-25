@@ -1,10 +1,6 @@
 package edu.rose_hulman.tee.social_litter
 
-import android.util.Log
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.GeoPoint
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 import org.mindrot.jbcrypt.BCrypt
 
 class Database {
@@ -169,6 +165,38 @@ class Database {
                 data[LOCATION] as GeoPoint,
                 data[RADIUS] as Double,
                 (data[LIKES] as Long).toInt()
+            )
+        }
+
+        //TODO: Need to distinguish here on only groups user is in
+        fun addMyGroupListener(adapter : MyGroupAdapter) {
+            groupRef.addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
+                if (exception == null) {
+                    for (doc in snapshot!!.documentChanges) {
+                        var group = createGroupFromSnapshot(doc.document)
+                        adapter.add(group)
+                    }
+                }
+            }
+        }
+
+        //TODO: Need to distinguish here on only groups user is not in
+        fun addNewGroupListener(adapter : NewGroupAdapter) {
+            groupRef.addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
+                if (exception == null) {
+                    for (doc in snapshot!!.documentChanges) {
+                        var group = createGroupFromSnapshot(doc.document)
+                        adapter.add(group)
+                    }
+                }
+            }
+        }
+
+        private fun createGroupFromSnapshot(data: DocumentSnapshot) : Group {
+            return Group(
+                data[GROUP_NAME] as String,
+                data[GROUP_DESC] as String,
+                data[GROUP_PRIVACY]as Boolean
             )
         }
 
