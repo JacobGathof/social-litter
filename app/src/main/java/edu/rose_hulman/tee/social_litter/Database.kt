@@ -14,6 +14,7 @@ class Database {
         private const val USERNAME = "username"
         private const val EMAIL = "email"
         private const val PASSWORD = "password"
+        private const val USER_GROUP_LIST = "user_groups"
 
         private const val GROUP_NAME = "groupName"
         private const val GROUP_DESC = "groupDesc"
@@ -39,7 +40,7 @@ class Database {
         fun populateTestData(){
             usersRef.get().addOnSuccessListener { snap->
                 deleteAll(snap)
-                addUser(User("Eric", "Eric@Eric.er", "hunter2"))
+                addUser(User("Eric", "Eric@Eric.er", "hunter2", arrayListOf("Global", "NotGlobal")))
             }
 
             messageRef.get().addOnSuccessListener { snap->
@@ -79,7 +80,17 @@ class Database {
             data[USERNAME] = user.username
             data[EMAIL] = user.email
             data[PASSWORD] = BCrypt.hashpw(user.password, BCrypt.gensalt())
-            usersRef.add(data)
+            data[USER_GROUP_LIST] = user.groups
+            usersRef.document(user.username).set(data)
+        }
+
+        fun updateUser(user : User){
+            var data = HashMap<String, Any>()
+            data[USERNAME] = user.username
+            data[EMAIL] = user.email
+            data[PASSWORD] = BCrypt.hashpw(user.password, BCrypt.gensalt())
+            data[USER_GROUP_LIST] = user.groups
+            usersRef.document(user.username).set(data)
         }
 
         fun addMessage(message : Message){
@@ -165,6 +176,15 @@ class Database {
                 data[LOCATION] as GeoPoint,
                 data[RADIUS] as Double,
                 (data[LIKES] as Long).toInt()
+            )
+        }
+
+        private fun createUserFromSnapshot(data : DocumentSnapshot) : User{
+            return User(
+                data[USERNAME] as String,
+                data[EMAIL] as String,
+                data[PASSWORD] as String,
+                data[USER_GROUP_LIST] as List<String>
             )
         }
 
