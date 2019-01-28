@@ -28,5 +28,6 @@ class NewGroupAdapter(var context: Context): RecyclerView.Adapter<GroupViewHolde
 
     fun add(group: Group) {
         groups.add(group)
+        notifyDataSetChanged()
     }
 }

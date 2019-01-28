@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,33 +19,31 @@ class GroupFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var rootView = inflater.inflate(R.layout.fragment_groups, container, false) as RecyclerView
+        var rootView = inflater.inflate(R.layout.fragment_groups, container, false)
+        val recycler = rootView.recycler
 
         adapterMy = MyGroupAdapter(this.context!!)
-
         adapterMy.addSnapshotListener()
-
         adapterNew = NewGroupAdapter(this.context!!)
-
         adapterNew.addSnapshotListener()
 
         var manager = LinearLayoutManager(this.context!!)
 
-        rootView.layoutManager = manager
-        rootView.setHasFixedSize(true)
-        rootView.adapter = adapterNew
+        recycler.layoutManager = manager
+        recycler.setHasFixedSize(true)
+        recycler.adapter = adapterNew
 
         rootView.join_toggle.setOnClickListener {
-            rootView.adapter = adapterNew
-            rootView.join_toggle.setBackgroundColor(context!!.resources.getColor(R.color.blue_7))
+            recycler.adapter = adapterNew
+            rootView.join_toggle.setBackgroundColor(context!!.resources.getColor(R.color.blue_5))
             rootView.my_groups.setBackgroundColor(context!!.resources.getColor(R.color.blue_3))
             rootView.add_group.visibility = View.VISIBLE
         }
 
         rootView.my_groups.setOnClickListener {
-            rootView.adapter = adapterMy
+            recycler.adapter = adapterMy
             rootView.join_toggle.setBackgroundColor(context!!.resources.getColor(R.color.blue_3))
-            rootView.my_groups.setBackgroundColor(context!!.resources.getColor(R.color.blue_7))
+            rootView.my_groups.setBackgroundColor(context!!.resources.getColor(R.color.blue_5))
             rootView.add_group.visibility = View.INVISIBLE
         }
 

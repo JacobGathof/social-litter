@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         var navigateTo : Fragment? = null
         when (item.itemId) {
             R.id.navigation_group -> {
-                navigateTo = PlaceholderFragment.newInstance(1)
+                navigateTo = GroupFragment()
             }
             R.id.navigation_messages -> {
                 navigateTo = MessageFragment.newInstance(locationService)

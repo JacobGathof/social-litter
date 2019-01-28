@@ -1,5 +1,6 @@
 package edu.rose_hulman.tee.social_litter
 
+import android.util.Log
 import com.google.firebase.firestore.*
 import org.mindrot.jbcrypt.BCrypt
 
