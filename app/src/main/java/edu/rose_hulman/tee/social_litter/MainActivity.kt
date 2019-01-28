@@ -16,6 +16,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseAuth
 import edu.rose_hulman.tee.social_litter.MapFragment
 import edu.rose_hulman.tee.social_litter.MessageFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -24,10 +26,16 @@ import java.lang.Exception
 class MainActivity : AppCompatActivity() {
 
     lateinit var locationService: LocationService
+    private lateinit var mAuth : FirebaseAuth
+    private lateinit var mAuthListener : FirebaseAuth.AuthStateListener
+    private val RC_SIGN_IN = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mAuth = FirebaseAuth.getInstance()
+        initializeListeners()
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
@@ -44,6 +52,44 @@ class MainActivity : AppCompatActivity() {
 
         Database.populateTestData()
     }
+
+    private fun initializeListeners(){
+        mAuthListener = FirebaseAuth.AuthStateListener { firebaseAuth : FirebaseAuth ->
+            val user = firebaseAuth.currentUser
+            if(user != null){
+
+            }else{
+                launchLoginScreen()
+            }
+        }
+    }
+
+    private fun launchLoginScreen(){
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build(),
+            AuthUI.IdpConfig.PhoneBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build()
+        )
+
+        val loginIntent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .setLogo(R.drawable.ic_dashboard_black_24dp)
+            .build()
+
+        startActivityForResult(loginIntent, RC_SIGN_IN)
+    }
+
+    public override fun onStart() {
+        super.onStart()
+        mAuth.addAuthStateListener(mAuthListener)
+    }
+
+    public override fun onStop() {
+        super.onStop()
+        mAuth.removeAuthStateListener(mAuthListener)
+    }
+
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
