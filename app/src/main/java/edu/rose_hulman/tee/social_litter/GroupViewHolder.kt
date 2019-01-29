@@ -6,11 +6,11 @@ import android.view.View
 import android.widget.EditText
 import kotlinx.android.synthetic.main.group_row.view.*
 
-class GroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class GroupViewHolder(itemView: View, adapter: GroupAdapter) : RecyclerView.ViewHolder(itemView) {
 
     init{
         itemView.setOnClickListener{
-
+            adapter.showGroup(this.adapterPosition)
         }
     }
 

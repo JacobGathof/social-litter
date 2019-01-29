@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorBackgroundOutline">
+
+    <View
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:background="@color/colorBackground"/>
+
+    <TextView
+            android:id="@+id/group_info_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:layout_alignTop="@id/background"
+            android:layout_alignLeft="@id/background"
+            android:layout_margin="10dp"/>
+
+    <TextView
+            android:id="@+id/group_info_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textSize="24sp"
+            android:layout_below="@id/group_info_title"
+            android:layout_alignLeft="@id/background"
+            android:layout_marginLeft="10dp"/>
+
+
+
+    <Button
+            android:id="@+id/group_info_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/background"
+            android:layout_alignLeft="@id/background"
+            android:text="Back"
+            android:layout_margin="10dp"/>
+
+    <Button
+            android:id="@+id/group_info_join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/background"
+            android:layout_alignRight="@id/background"
+            android:text="Join"
+            android:layout_margin="10dp"/>
+
+    <Button
+            android:id="@+id/group_info_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/background"
+            android:layout_alignRight="@id/background"
+            android:text="Edit"
+            android:layout_margin="10dp"/>
+
+    <HorizontalScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/group_info_back"
+            android:layout_alignLeft="@id/background"
+            android:layout_alignRight="@id/background">
+
+        <LinearLayout
+                android:id="@+id/group_members_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/scroll_view"
+            android:layout_alignLeft="@id/background"
+            android:layout_margin="10dp"
+            android:text="Members"
+            android:textSize="24dp"
+            android:textStyle="bold"/>
+
+</RelativeLayout>

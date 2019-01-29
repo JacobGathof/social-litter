@@ -23,7 +23,7 @@ import edu.rose_hulman.tee.social_litter.MessageFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), GroupFragment.GroupClickListener {
 
     lateinit var locationService: LocationService
     private lateinit var mAuth : FirebaseAuth
@@ -127,6 +127,19 @@ class MainActivity : AppCompatActivity() {
         changeFragment(MapFragment.newInstance(locationService))
     }
 
+    override fun onGroupSelected(group: String) {
+        var group = Database.showGroupDetails(group, this)
+    }
+
+    fun displayGroup(group : Group) {
+        var frag = GroupInfoFragment.newInstance(group)
+        if (frag != null) {
+            val fragTrans = supportFragmentManager.beginTransaction()
+            fragTrans.replace(R.id.container, frag, "about")
+            fragTrans.addToBackStack("group")
+            fragTrans.commit()
+        }
+    }
 
     class PlaceholderFragment : Fragment() {
 

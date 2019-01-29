@@ -7,13 +7,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 
-class MyGroupAdapter(var context: Context) : RecyclerView.Adapter<GroupViewHolder>() {
+class MyGroupAdapter(var context: Context, var fragment: GroupFragment) : RecyclerView.Adapter<GroupViewHolder>(), GroupAdapter {
 
     var groups = ArrayList<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): GroupViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.group_row, parent, false)
-        return GroupViewHolder(view)
+        return GroupViewHolder(view, this)
     }
 
     override fun getItemCount(): Int {
@@ -35,5 +35,9 @@ class MyGroupAdapter(var context: Context) : RecyclerView.Adapter<GroupViewHolde
     fun addAll(gr : List<String>){
         groups.addAll(gr)
         notifyDataSetChanged()
+    }
+
+    override fun showGroup(pos: Int) {
+        fragment.showGroup(groups[pos])
     }
 }

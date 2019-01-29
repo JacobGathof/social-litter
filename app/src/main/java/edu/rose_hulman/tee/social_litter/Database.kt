@@ -41,7 +41,7 @@ class Database {
 
 
         private var groupMessageMap = HashMap<String, ArrayList<Message>>()
-        private var user : User? = null
+        public var user : User? = null
 
         fun populateTestData(){
 //            usersRef.get().addOnSuccessListener { snap->
@@ -237,23 +237,14 @@ class Database {
         }
 
 
-        fun showGroupDetails(groupName : String, activity : Context){
+        fun showGroupDetails(groupName : String, activity : MainActivity){
 
             groupRef.whereEqualTo(GROUP_NAME, groupName).get().addOnSuccessListener { querySnapshot ->
                 if(!querySnapshot.isEmpty){
                     val doc = querySnapshot.documents[0]
                     if(doc.exists()){
-                        val name = doc[GROUP_NAME] as String
-                        val desc = doc[GROUP_DESC] as String
-
-                        /*
-                        var dialog = AlertDialog.Builder(activity)
-                        val view = LayoutInflater.inflate(R.layout.fragment_groups_details, false)
-                        dialog.setTitle("Testing")
-                            .setView(view)
-                            .create().show()
-                        */
-
+                        var group = createGroupFromSnapshot(doc)
+                        activity.displayGroup(group)
                     }
                 }
 

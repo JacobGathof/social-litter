@@ -1,5 +1,6 @@
 package edu.rose_hulman.tee.social_litter
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ class GroupFragment : Fragment(){
 
     lateinit var adapterMy : MyGroupAdapter
     lateinit var adapterNew : NewGroupAdapter
+    var listener : GroupClickListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,9 +24,9 @@ class GroupFragment : Fragment(){
         var rootView = inflater.inflate(R.layout.fragment_groups, container, false)
         val recycler = rootView.recycler
 
-        adapterMy = MyGroupAdapter(this.context!!)
+        adapterMy = MyGroupAdapter(this.context!!, this)
         adapterMy.addSnapshotListener()
-        adapterNew = NewGroupAdapter(this.context!!)
+        adapterNew = NewGroupAdapter(this.context!!, this)
         adapterNew.addSnapshotListener()
 
         var manager = LinearLayoutManager(this.context!!)
@@ -48,6 +50,28 @@ class GroupFragment : Fragment(){
         }
 
         return rootView
+    }
+
+    fun showGroup(group: String) {
+        listener?.onGroupSelected(group);
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is GroupClickListener) {
+            listener = context
+        } else {
+            throw RuntimeException(context.toString() + " must implement OnGroupSelectedListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
+    interface GroupClickListener {
+        fun onGroupSelected(group: String)
     }
 
 }
