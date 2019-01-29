@@ -13,8 +13,6 @@ class Database {
         private const val GROUPS_COLLECTION = "GROUPS_COLLECTION"
 
         private const val USERNAME = "username"
-        private const val EMAIL = "email"
-        private const val PASSWORD = "password"
         private const val USER_GROUP_LIST = "user_groups"
 
         private const val GROUP_NAME = "groupName"
@@ -36,12 +34,12 @@ class Database {
 
 
         private var groupMessageMap = HashMap<String, ArrayList<Message>>()
-
+        private var user : User? = null
 
         fun populateTestData(){
             usersRef.get().addOnSuccessListener { snap->
                 deleteAll(snap)
-                addUser(User("Eric", "Eric@Eric.er", "hunter2", arrayListOf("Global", "NotGlobal")))
+                //addUser(User("Eric", arrayListOf("Global", "NotGlobal")))
             }
 
             messageRef.get().addOnSuccessListener { snap->
@@ -79,19 +77,15 @@ class Database {
         fun addUser(user : User){
             var data = HashMap<String, Any>()
             data[USERNAME] = user.username
-            data[EMAIL] = user.email
-            data[PASSWORD] = BCrypt.hashpw(user.password, BCrypt.gensalt())
             data[USER_GROUP_LIST] = user.groups
-            usersRef.document(user.username).set(data)
+            usersRef.document(user.uid).set(data)
         }
 
         fun updateUser(user : User){
             var data = HashMap<String, Any>()
             data[USERNAME] = user.username
-            data[EMAIL] = user.email
-            data[PASSWORD] = BCrypt.hashpw(user.password, BCrypt.gensalt())
             data[USER_GROUP_LIST] = user.groups
-            usersRef.document(user.username).set(data)
+            usersRef.document(user.uid).set(data)
         }
 
         fun addMessage(message : Message){
@@ -133,7 +127,6 @@ class Database {
                     addMessageToMap(groupName, message)
 
                 }
-
                 mapController.updateMessageMap()
             }
         }
@@ -180,12 +173,21 @@ class Database {
             )
         }
 
+        fun setUser(uid : String){
+            usersRef.document(uid).get().addOnSuccessListener { documentSnapshot ->
+                if(documentSnapshot.exists()) {
+                    user = createUserFromSnapshot(documentSnapshot)
+                }else{
+
+                }
+            }
+        }
+
         private fun createUserFromSnapshot(data : DocumentSnapshot) : User{
             return User(
                 data[USERNAME] as String,
-                data[EMAIL] as String,
-                data[PASSWORD] as String,
-                data[USER_GROUP_LIST] as List<String>
+                data[USER_GROUP_LIST] as List<String>,
+                data.id
             )
         }
 

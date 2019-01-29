@@ -1,6 +1,6 @@
 package edu.rose_hulman.tee.social_litter
 
 
-class User(var username: String, var email: String, var password: String, var groups : List<String>) {
+class User(var username: String, var groups : List<String>, var uid : String) {
 
 }

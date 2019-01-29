@@ -53,13 +53,16 @@ class MainActivity : AppCompatActivity() {
         Database.populateTestData()
     }
 
+
     private fun initializeListeners(){
         mAuthListener = FirebaseAuth.AuthStateListener { firebaseAuth : FirebaseAuth ->
             val user = firebaseAuth.currentUser
             if(user != null){
-
+                Log.d("QQQ", "Here")
+                Database.setUser(user.uid)
             }else{
                 launchLoginScreen()
+                //Database.addNewUser(user.uid, )
             }
         }
     }
