@@ -1,10 +1,15 @@
 package edu.rose_hulman.tee.social_litter
 
 import android.app.AlertDialog
+import android.content.Context
+import android.text.Layout
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View.inflate
 import android.widget.EditText
 import com.google.firebase.firestore.*
 import org.mindrot.jbcrypt.BCrypt
+import java.util.zip.Inflater
 
 class Database {
 
@@ -77,13 +82,6 @@ class Database {
         }
 
         fun addUser(user : User){
-            var data = HashMap<String, Any>()
-            data[USERNAME] = user.username
-            data[USER_GROUP_LIST] = user.groups
-            usersRef.document(user.uid).set(data)
-        }
-
-        fun updateUser(user : User){
             var data = HashMap<String, Any>()
             data[USERNAME] = user.username
             data[USER_GROUP_LIST] = user.groups
@@ -200,7 +198,7 @@ class Database {
         private fun createUserFromSnapshot(data : DocumentSnapshot) : User{
             return User(
                 data[USERNAME] as String,
-                data[USER_GROUP_LIST] as List<String>,
+                data[USER_GROUP_LIST] as ArrayList<String>,
                 data.id
             )
         }
@@ -209,9 +207,9 @@ class Database {
         fun addMyGroupListener(adapter : MyGroupAdapter) {
             usersRef.document(user!!.uid).addSnapshotListener { snapshot: DocumentSnapshot?, exception: FirebaseFirestoreException? ->
                 if (exception == null) {
-                    var groups = snapshot?.get(USER_GROUP_LIST) as List<String>
+                    var groups = snapshot?.get(USER_GROUP_LIST) as ArrayList<String>
                     user!!.groups = groups;
-                    adapter.groups.addAll(groups)
+                    adapter.addAll(groups)
                 }
             }
         }
@@ -219,11 +217,13 @@ class Database {
         //TODO: Need to distinguish here on only groups user is not in
         fun addNewGroupListener(adapter : NewGroupAdapter) {
             groupRef.addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
-                if (exception == null) {
-                    for (doc in snapshot!!.documentChanges) {
-                        var group = createGroupFromSnapshot(doc.document)
-                        adapter.add(group)
+                if (exception == null && snapshot!=null) {
+                    var groupNames = ArrayList<String>()
+                    for (doc in snapshot!!.documents) {
+                        val nm = doc[GROUP_NAME] as String
+                        groupNames.add(nm)
                     }
+                    adapter.addAll(groupNames)
                 }
             }
         }
@@ -234,6 +234,39 @@ class Database {
                 data[GROUP_DESC] as String,
                 data[GROUP_PRIVACY]as Boolean
             )
+        }
+
+
+        fun showGroupDetails(groupName : String, activity : Context){
+
+            groupRef.whereEqualTo(GROUP_NAME, groupName).get().addOnSuccessListener { querySnapshot ->
+                if(!querySnapshot.isEmpty){
+                    val doc = querySnapshot.documents[0]
+                    if(doc.exists()){
+                        val name = doc[GROUP_NAME] as String
+                        val desc = doc[GROUP_DESC] as String
+
+                        /*
+                        var dialog = AlertDialog.Builder(activity)
+                        val view = LayoutInflater.inflate(R.layout.fragment_groups_details, false)
+                        dialog.setTitle("Testing")
+                            .setView(view)
+                            .create().show()
+                        */
+
+                    }
+                }
+
+            }
+        }
+
+        fun joinGroup(groupName : String){
+            user?.groups?.add(groupName)
+            addUser(user!!)
+        }
+
+        fun leaveGroup(groupName : String){
+
         }
 
     }

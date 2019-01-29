@@ -58,11 +58,9 @@ class MainActivity : AppCompatActivity() {
         mAuthListener = FirebaseAuth.AuthStateListener { firebaseAuth : FirebaseAuth ->
             val user = firebaseAuth.currentUser
             if(user != null){
-                Log.d("QQQ", "Here")
                 Database.setUser(user.uid, this)
             }else{
                 launchLoginScreen()
-                //Database.addNewUser(user.uid, )
             }
         }
     }
@@ -129,22 +127,6 @@ class MainActivity : AppCompatActivity() {
         changeFragment(MapFragment.newInstance(locationService))
     }
 
-
-    inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
-
-        override fun getItem(position: Int): Fragment {
-
-            return when (position) {
-                2 -> MessageFragment.newInstance(locationService)
-                3 -> MapFragment.newInstance(locationService)
-                else -> PlaceholderFragment.newInstance(position)
-            }
-        }
-
-        override fun getCount(): Int {
-            return 4
-        }
-    }
 
     class PlaceholderFragment : Fragment() {
 
