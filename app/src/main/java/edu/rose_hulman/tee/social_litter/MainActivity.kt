@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             val user = firebaseAuth.currentUser
             if(user != null){
                 Log.d("QQQ", "Here")
-                Database.setUser(user.uid)
+                Database.setUser(user.uid, this)
             }else{
                 launchLoginScreen()
                 //Database.addNewUser(user.uid, )
@@ -123,6 +123,10 @@ class MainActivity : AppCompatActivity() {
             fragTrans.replace(R.id.container, frag, "about")
             fragTrans.commit()
         }
+    }
+
+    fun swapToMap() {
+        changeFragment(MapFragment.newInstance(locationService))
     }
 
 

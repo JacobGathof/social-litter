@@ -1,6 +1,8 @@
 package edu.rose_hulman.tee.social_litter
 
+import android.app.AlertDialog
 import android.util.Log
+import android.widget.EditText
 import com.google.firebase.firestore.*
 import org.mindrot.jbcrypt.BCrypt
 
@@ -37,26 +39,26 @@ class Database {
         private var user : User? = null
 
         fun populateTestData(){
-            usersRef.get().addOnSuccessListener { snap->
-                deleteAll(snap)
-                //addUser(User("Eric", arrayListOf("Global", "NotGlobal")))
-            }
-
-            messageRef.get().addOnSuccessListener { snap->
-                deleteAll(snap)
-                addMessage(Message("Global", "Eric", "Title", "Body", GeoPoint(4.0,4.0), 1.0, 0))
-                addMessage(Message("Global", "Jake", "Title2", "Body2", GeoPoint(0.0,4.0), 1.0, 0))
-                addMessage(Message("Global", "Chris", "Runescape", "Test", GeoPoint(0.0,0.0), 1.0, 0))
-
-                addMessage(Message("NotGlobal", "Chris", "Runescape", "Test", GeoPoint(7.0,0.0), 1.0, 0))
-                addMessage(Message("NotGlobal", "Chris", "Runescape", "Test", GeoPoint(0.0,7.0), 1.0, 0))
-                addMessage(Message("NotGlobal", "Chris", "Runescape", "Test", GeoPoint(-7.0,0.0), 1.0, 0))
-            }
-
-            groupRef.get().addOnSuccessListener { snap->
-                deleteAll(snap)
-                addGroup(Group("Global", "Description", true))
-            }
+//            usersRef.get().addOnSuccessListener { snap->
+//                deleteAll(snap)
+//                //addUser(User("Eric", arrayListOf("Global", "NotGlobal")))
+//            }
+//
+//            messageRef.get().addOnSuccessListener { snap->
+//                deleteAll(snap)
+//                addMessage(Message("Global", "Eric", "Title", "Body", GeoPoint(4.0,4.0), 1.0, 0))
+//                addMessage(Message("Global", "Jake", "Title2", "Body2", GeoPoint(0.0,4.0), 1.0, 0))
+//                addMessage(Message("Global", "Chris", "Runescape", "Test", GeoPoint(0.0,0.0), 1.0, 0))
+//
+//                addMessage(Message("NotGlobal", "Chris", "Runescape", "Test", GeoPoint(7.0,0.0), 1.0, 0))
+//                addMessage(Message("NotGlobal", "Chris", "Runescape", "Test", GeoPoint(0.0,7.0), 1.0, 0))
+//                addMessage(Message("NotGlobal", "Chris", "Runescape", "Test", GeoPoint(-7.0,0.0), 1.0, 0))
+//            }
+//
+//            groupRef.get().addOnSuccessListener { snap->
+//                deleteAll(snap)
+//                addGroup(Group("Global", "Description", true))
+//            }
 
         }
 
@@ -173,12 +175,24 @@ class Database {
             )
         }
 
-        fun setUser(uid : String){
+        fun setUser(uid : String, activity: MainActivity){
             usersRef.document(uid).get().addOnSuccessListener { documentSnapshot ->
                 if(documentSnapshot.exists()) {
                     user = createUserFromSnapshot(documentSnapshot)
+                    activity.swapToMap()
                 }else{
-
+                    var dialog = AlertDialog.Builder(activity)
+                    var et = EditText(activity)
+                    et.setHint("Enter Username")
+                    dialog.setTitle("Welcome to Social Litter")
+                        .setView(et)
+                        .setPositiveButton("Submit") { _, _ ->
+                            user = User(et.text.toString(), ArrayList<String>(), uid)
+                            addUser(user!!)
+                            activity.swapToMap()
+                        }
+                        .setCancelable(false)
+                        .create().show()
                 }
             }
         }
@@ -193,12 +207,11 @@ class Database {
 
         //TODO: Need to distinguish here on only groups user is in
         fun addMyGroupListener(adapter : MyGroupAdapter) {
-            groupRef.addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
+            usersRef.document(user!!.uid).addSnapshotListener { snapshot: DocumentSnapshot?, exception: FirebaseFirestoreException? ->
                 if (exception == null) {
-                    for (doc in snapshot!!.documentChanges) {
-                        var group = createGroupFromSnapshot(doc.document)
-                        adapter.add(group)
-                    }
+                    var groups = snapshot?.get(USER_GROUP_LIST) as List<String>
+                    user!!.groups = groups;
+                    adapter.groups.addAll(groups)
                 }
             }
         }

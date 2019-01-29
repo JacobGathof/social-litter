@@ -9,7 +9,7 @@ import android.view.ViewGroup
 
 class MyGroupAdapter(var context: Context) : RecyclerView.Adapter<GroupViewHolder>() {
 
-    var groups = ArrayList<Group>()
+    var groups = ArrayList<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): GroupViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.group_row, parent, false)
@@ -28,7 +28,7 @@ class MyGroupAdapter(var context: Context) : RecyclerView.Adapter<GroupViewHolde
         Database.addMyGroupListener(this)
     }
 
-    fun add(group: Group) {
+    fun add(group: String) {
         groups.add(group)
     }
 }

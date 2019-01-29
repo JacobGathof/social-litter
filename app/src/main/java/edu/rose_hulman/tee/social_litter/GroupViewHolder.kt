@@ -6,7 +6,7 @@ import kotlinx.android.synthetic.main.group_row.view.*
 
 class GroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    fun bind(group: Group) {
-        itemView.group_name_text.setText(group.groupName)
+    fun bind(group: String) {
+        itemView.group_name_text.setText(group)
     }
 }
