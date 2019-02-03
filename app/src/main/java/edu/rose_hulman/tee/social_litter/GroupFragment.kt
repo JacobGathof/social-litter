@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -51,6 +52,18 @@ class GroupFragment : Fragment(){
 
         return rootView
     }
+
+    /*
+    public class SwipeCallback(var adapt: MyGroupAdapter) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT){
+        override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder): Boolean {
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+            adapt.(viewHolder.adapterPosition)
+        }
+    }
+    */
 
     fun showGroup(group: String) {
         listener?.onGroupSelected(group);

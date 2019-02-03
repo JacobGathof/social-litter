@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View.inflate
 import android.widget.EditText
 import com.google.firebase.firestore.*
-import org.mindrot.jbcrypt.BCrypt
 import java.util.zip.Inflater
 
 class Database {
@@ -41,7 +40,7 @@ class Database {
 
 
         private var groupMessageMap = HashMap<String, ArrayList<Message>>()
-        public var user : User? = null
+        var user : User? = null
 
         fun populateTestData(){
 //            usersRef.get().addOnSuccessListener { snap->
@@ -221,7 +220,9 @@ class Database {
                     var groupNames = ArrayList<String>()
                     for (doc in snapshot!!.documents) {
                         val nm = doc[GROUP_NAME] as String
-                        groupNames.add(nm)
+                        if(!user!!.groups.contains(nm)) {
+                            groupNames.add(nm)
+                        }
                     }
                     adapter.addAll(groupNames)
                 }
@@ -243,7 +244,7 @@ class Database {
                 if(!querySnapshot.isEmpty){
                     val doc = querySnapshot.documents[0]
                     if(doc.exists()){
-                        var group = createGroupFromSnapshot(doc)
+                        val group = createGroupFromSnapshot(doc)
                         activity.displayGroup(group)
                     }
                 }

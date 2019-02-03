@@ -38,21 +38,15 @@ class MessageFragment : Fragment() {
             rootView.input_title.setText("")
             rootView.input_message.setText("")
             rootView.radius.setText("")
-            Database.addMessage(Message(groupName, "Eric", title, body, location, radius, 0))
+            Database.addMessage(Message(groupName, Database.user!!.username, title, body, location, radius, 0))
         }
 
-        var groups = Array<String>(3) {
-            when (it) {
-                0 -> "Group1"
-                1 -> "Group2"
-                else -> "Group3"
-            }
-        }
+        var groups = Database.user!!.groups
 
-//        var adapterMy = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, groups)
-//        adapterMy.setDropDownViewResource(android.R.layout.simple_spinner_item);
-//
-//        rootView.dropdown_group.adapterMy = adapterMy;
+        var adapterMy = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, groups)
+        adapterMy.setDropDownViewResource(android.R.layout.simple_spinner_item);
+
+        rootView.dropdown_group.adapter = adapterMy;
 
         return rootView
     }

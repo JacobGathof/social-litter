@@ -78,7 +78,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     fun createFilterDialog(){
         val builder = AlertDialog.Builder(context!!)
 
-        val groups = arrayOf("Global", "NotGlobal")
+        val groups = Database.user!!.groups.toTypedArray()
         var groupsChecked = ArrayList<Boolean>()
         for(str in groups){
             groupsChecked.add(mapController!!.filterList!!.contains(str))

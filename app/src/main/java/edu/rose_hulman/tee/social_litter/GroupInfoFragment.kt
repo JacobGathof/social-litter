@@ -19,19 +19,20 @@ class GroupInfoFragment : Fragment() {
         arguments.let {
             group = it!!.getParcelable(ARG_GROUP)
         }
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var rootView = inflater.inflate(R.layout.fragment_groups, container, false)
+        var rootView = inflater.inflate(R.layout.fragment_group_info, container, false)
 
         rootView.group_info_title.setText(group.groupName)
         rootView.group_info_desc.setText(group.description)
-        rootView.setOnClickListener {
-            activity!!.finish()
+        rootView.group_info_back.setOnClickListener {
+            //activity!!.finish()
+            val man = activity!!.supportFragmentManager
+            man.popBackStack()
         }
         rootView.group_info_edit.visibility = View.INVISIBLE
         if (Database.user!!.groups.contains(group.groupName)) {
@@ -39,7 +40,8 @@ class GroupInfoFragment : Fragment() {
         }
         rootView.group_info_join.setOnClickListener {
             Database.joinGroup(group.groupName)
-            activity!!.finish()
+            val man = activity!!.supportFragmentManager
+            man.popBackStack()
         }
         return rootView
     }
