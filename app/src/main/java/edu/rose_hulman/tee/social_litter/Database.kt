@@ -77,7 +77,9 @@ class Database {
             data[GROUP_NAME] = group.groupName
             data[GROUP_DESC] = group.description
             data[GROUP_PRIVACY] = group.public
-            groupRef.add(data)
+            groupRef.add(data).addOnSuccessListener {
+                joinGroup(group.groupName)
+            }
         }
 
         fun addUser(user : User){

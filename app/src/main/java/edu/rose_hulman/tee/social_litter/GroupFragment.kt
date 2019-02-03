@@ -1,5 +1,6 @@
 package edu.rose_hulman.tee.social_litter
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -10,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.add_new_group.view.*
 import kotlinx.android.synthetic.main.fragment_groups.view.*
 
 class GroupFragment : Fragment(){
@@ -48,6 +50,27 @@ class GroupFragment : Fragment(){
             rootView.join_toggle.setBackgroundColor(context!!.resources.getColor(R.color.blue_3))
             rootView.my_groups.setBackgroundColor(context!!.resources.getColor(R.color.blue_5))
             rootView.add_group.visibility = View.INVISIBLE
+        }
+
+        rootView.add_group.setOnClickListener {
+
+            val builder = AlertDialog.Builder(activity)
+            val view = LayoutInflater.from(activity).inflate(R.layout.add_new_group, null, false)
+            builder.setView(view)
+            builder.setTitle("Add new group")
+
+            builder.setPositiveButton(android.R.string.ok){dialog, which ->
+                val name = view.add_group_name.text.toString()
+                val desc = view.add_group_desc.text.toString()
+                val privacy = true
+                Database.addGroup(Group(name, desc, privacy))
+            }
+
+            builder.setNegativeButton(android.R.string.cancel){dialog, which ->
+
+            }
+
+            builder.create().show()
         }
 
         return rootView

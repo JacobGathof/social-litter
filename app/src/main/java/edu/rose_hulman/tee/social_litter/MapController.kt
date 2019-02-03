@@ -36,15 +36,19 @@ class MapController(var map: GoogleMap, var context: Context) {
                     if(pair.marker == marker){
                         val message = pair.message
 
-                        var builder = AlertDialog.Builder(context)
-                        var rootView = LayoutInflater.from(context).inflate(R.layout.message_popup, null, false)
-                        rootView.title.text = message.messageTitle
-                        rootView.like_counter.text = message.likes.toString()
-                        rootView.message_text.text = message.messageText
-                        rootView.group_name.text = message.groupName
-                        builder.setView(rootView)
-                            .create().show()
-                        break
+                        val result = floatArrayOf(0.0f)
+                        Location.distanceBetween(userPos.latitude, userPos.longitude, marker.position.latitude, marker.position.longitude, result)
+                        if(result[0] <= message.radius){
+                            var builder = AlertDialog.Builder(context)
+                            var rootView = LayoutInflater.from(context).inflate(R.layout.message_popup, null, false)
+                            rootView.title.text = message.messageTitle
+                            rootView.like_counter.text = message.likes.toString()
+                            rootView.message_text.text = message.messageText
+                            rootView.group_name.text = message.groupName
+                            builder.setView(rootView)
+                                .create().show()
+                            break
+                        }
                     }
                 }
             }
