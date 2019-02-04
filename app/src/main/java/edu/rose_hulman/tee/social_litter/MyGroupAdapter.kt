@@ -10,6 +10,7 @@ import android.view.ViewGroup
 class MyGroupAdapter(var context: Context, var fragment: GroupFragment) : RecyclerView.Adapter<GroupViewHolder>(), GroupAdapter {
 
     var groups = ArrayList<String>()
+    public var isActive = false
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): GroupViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.group_row, parent, false)
@@ -30,6 +31,7 @@ class MyGroupAdapter(var context: Context, var fragment: GroupFragment) : Recycl
 
     fun add(group: String) {
         groups.add(group)
+        notifyDataSetChanged()
     }
 
     fun addAll(gr : List<String>){
@@ -39,5 +41,12 @@ class MyGroupAdapter(var context: Context, var fragment: GroupFragment) : Recycl
 
     override fun showGroup(pos: Int) {
         fragment.showGroup(groups[pos])
+    }
+
+    override fun removeGroup(pos: Int) {
+        if (isActive) {
+            Database.leaveGroup(groups[pos])
+            fragment.refresh()
+        }
     }
 }

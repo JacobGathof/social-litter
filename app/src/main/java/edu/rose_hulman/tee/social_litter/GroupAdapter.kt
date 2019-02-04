@@ -4,4 +4,6 @@ interface GroupAdapter {
 
     fun showGroup(pos: Int)
 
+    fun removeGroup(pos: Int)
+
 }

@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.add_new_group.view.*
+import kotlinx.android.synthetic.main.fragment_groups.*
 import kotlinx.android.synthetic.main.fragment_groups.view.*
 
 class GroupFragment : Fragment(){
@@ -32,17 +33,22 @@ class GroupFragment : Fragment(){
         adapterNew = NewGroupAdapter(this.context!!, this)
         adapterNew.addSnapshotListener()
 
+        var drag = DragAdapter(adapterMy)
+
         var manager = LinearLayoutManager(this.context!!)
 
         recycler.layoutManager = manager
         recycler.setHasFixedSize(true)
         recycler.adapter = adapterNew
+        var itemTouchHelper = ItemTouchHelper(drag)
+        itemTouchHelper.attachToRecyclerView(recycler)
 
         rootView.join_toggle.setOnClickListener {
             recycler.adapter = adapterNew
             rootView.join_toggle.setBackgroundColor(context!!.resources.getColor(R.color.blue_5))
             rootView.my_groups.setBackgroundColor(context!!.resources.getColor(R.color.blue_3))
             rootView.add_group.visibility = View.VISIBLE
+            adapterMy.isActive = false
         }
 
         rootView.my_groups.setOnClickListener {
@@ -50,6 +56,7 @@ class GroupFragment : Fragment(){
             rootView.join_toggle.setBackgroundColor(context!!.resources.getColor(R.color.blue_3))
             rootView.my_groups.setBackgroundColor(context!!.resources.getColor(R.color.blue_5))
             rootView.add_group.visibility = View.INVISIBLE
+            adapterMy.isActive = true
         }
 
         rootView.add_group.setOnClickListener {
@@ -74,6 +81,20 @@ class GroupFragment : Fragment(){
         }
 
         return rootView
+    }
+
+    public fun refresh() {
+        var onMyTab = adapterMy.isActive
+        adapterMy = MyGroupAdapter(this.context!!, this)
+        adapterMy.addSnapshotListener()
+        adapterMy.isActive = onMyTab
+        adapterNew = NewGroupAdapter(this.context!!, this)
+        adapterNew.addSnapshotListener()
+        if (onMyTab) {
+            recycler.adapter = adapterMy
+        }else {
+            recycler.adapter = adapterNew
+        }
     }
 
     /*

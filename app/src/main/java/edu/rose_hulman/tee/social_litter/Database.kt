@@ -260,7 +260,8 @@ class Database {
         }
 
         fun leaveGroup(groupName : String){
-
+            user!!.groups.remove(groupName)
+            addUser(user!!)
         }
 
     }

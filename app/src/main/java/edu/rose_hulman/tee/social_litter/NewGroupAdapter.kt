@@ -2,6 +2,7 @@ package edu.rose_hulman.tee.social_litter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 
@@ -39,5 +40,9 @@ class NewGroupAdapter(var context: Context, var fragment: GroupFragment): Recycl
 
     override fun showGroup(pos: Int) {
         fragment.showGroup(groups[pos])
+    }
+
+    override fun removeGroup(pos: Int) {
+        //Database.leaveGroup(groups[pos])
     }
 }
