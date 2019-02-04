@@ -46,11 +46,12 @@
 
     <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/tabs"
             android:layout_alignLeft="@id/background"
-            android:layout_alignBottom="@id/background">
+            android:layout_alignBottom="@id/background"
+            android:layout_alignRight="@id/background">
 
 
     </android.support.v7.widget.RecyclerView>

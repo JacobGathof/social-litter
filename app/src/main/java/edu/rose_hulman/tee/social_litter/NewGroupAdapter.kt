@@ -43,6 +43,6 @@ class NewGroupAdapter(var context: Context, var fragment: GroupFragment): Recycl
     }
 
     override fun removeGroup(pos: Int) {
-        //Database.leaveGroup(groups[pos])
+        fragment.refresh()
     }
 }
