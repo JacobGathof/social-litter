@@ -2,12 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorBackgroundOutline">
+                android:background="@color/blue_3">
 
     <View android:layout_width="match_parent"
           android:layout_height="match_parent"
-          android:layout_margin="20dp"
-          android:background="@color/colorBackground"
+          android:layout_margin="4dp"
+          android:background="@color/blue_2"
     />
     
     <TextView
@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Create Message"
+            android:textColor="@color/blue_7"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginTop="30dp"
@@ -28,8 +29,12 @@
             android:layout_alignLeft="@id/page_title"
             android:hint="Title"
             android:layout_marginRight="30dp"
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="30dp"/>
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:background="@drawable/element_border"
+            android:layout_marginTop="12dp"/>
 
     <EditText
             android:id="@+id/input_message"
@@ -39,8 +44,9 @@
             android:layout_alignLeft="@id/page_title"
             android:hint="Message"
             android:layout_marginRight="30dp"
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="30dp"
+            android:background="@drawable/element_border"
+            android:layout_marginTop="24dp"
+            android:padding="16dp"
             android:inputType="text|textMultiLine"/>
 
     <Spinner
@@ -48,31 +54,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/input_message"
-            android:layout_alignLeft="@id/input_message"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_alignLeft="@id/page_title"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="24dp"
+            android:padding="8dp"
+            android:background="@drawable/element_border"
             android:entries="@array/sample_group_dropdown"/>
 
     <EditText
             android:id="@+id/radius"
             android:layout_width="wrap_content"
-            android:paddingHorizontal="10dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/dropdown_group"
             android:layout_alignLeft="@id/page_title"
             android:hint="Radius"
             android:layout_marginRight="30dp"
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="30dp"
+            android:padding="8dp"
+            android:background="@drawable/element_border"
+            android:layout_marginTop="24dp"
             android:inputType="number"/>
+
+    <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/blue_4"
+            android:layout_below="@id/radius"
+            android:layout_marginTop="24dp"
+            android:layout_alignLeft="@id/page_title"
+            android:layout_alignRight="@id/input_title"/>
 
     <Button android:id="@+id/post_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/element_border"
             android:layout_below="@id/radius"
-            android:layout_alignRight="@id/dropdown_group"
-            android:layout_marginTop="50dp"
+            android:layout_alignLeft="@id/page_title"
+            android:layout_marginTop="48dp"
             android:text="POST"/>
 
 </RelativeLayout>

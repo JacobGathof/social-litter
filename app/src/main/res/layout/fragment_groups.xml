@@ -3,13 +3,13 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackgroundOutline">
+        android:background="@color/blue_5">
 
     <View
             android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="20dp"
+            android:layout_margin="4dp"
             android:background="@color/colorBackground"/>
 
     <LinearLayout
@@ -17,7 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:padding="8dp"
             android:orientation="horizontal"
             android:layout_alignLeft="@id/background"
             android:layout_alignRight="@id/background"
@@ -28,18 +27,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/join_group"
+                android:layout_margin="2dp"
+                android:background="@drawable/element_border"
                 />
 
         <Button android:id="@+id/my_groups"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="My Groups"
+                android:layout_margin="2dp"
+                android:background="@drawable/element_border"
         />
 
         <Button android:id="@+id/add_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+"/>
+                android:text="+"
+                android:layout_margin="2dp"
+                android:background="@drawable/element_border"/>
 
     </LinearLayout>
 

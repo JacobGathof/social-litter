@@ -63,7 +63,6 @@ class Database {
 //                deleteAll(snap)
 //                addGroup(Group("Global", "Description", true))
 //            }
-
         }
 
         private fun deleteAll(snap: QuerySnapshot){

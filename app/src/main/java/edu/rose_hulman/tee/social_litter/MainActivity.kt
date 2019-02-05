@@ -102,9 +102,6 @@ class MainActivity : AppCompatActivity(), GroupFragment.GroupClickListener {
             R.id.navigation_messages -> {
                 navigateTo = MessageFragment.newInstance(locationService)
             }
-            R.id.navigation_profile -> {
-                navigateTo = PlaceholderFragment.newInstance(0)
-            }
             R.id.navigation_map -> {
                 navigateTo = MapFragment.newInstance(locationService)
             }
