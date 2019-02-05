@@ -7,4 +7,10 @@
             android:title="Filter"
     />
 
+    <item
+            android:id="@+id/navigation_logout"
+            android:icon="@drawable/round_gps_fixed_black_18dp"
+            android:title="Logout"
+    />
+
 </menu>

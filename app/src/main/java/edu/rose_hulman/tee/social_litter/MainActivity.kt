@@ -13,9 +13,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import edu.rose_hulman.tee.social_litter.MapFragment
@@ -29,6 +27,8 @@ class MainActivity : AppCompatActivity(), GroupFragment.GroupClickListener {
     private lateinit var mAuth : FirebaseAuth
     private lateinit var mAuthListener : FirebaseAuth.AuthStateListener
     private val RC_SIGN_IN = 1
+    private var mapFragment: MapFragment? = null
+    lateinit var menu: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity(), GroupFragment.GroupClickListener {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
         var navigateTo : Fragment? = null
+        menu.findItem(R.id.navigation_filter).isVisible = false
         when (item.itemId) {
             R.id.navigation_group -> {
                 navigateTo = GroupFragment()
@@ -103,7 +104,11 @@ class MainActivity : AppCompatActivity(), GroupFragment.GroupClickListener {
                 navigateTo = MessageFragment.newInstance(locationService)
             }
             R.id.navigation_map -> {
-                navigateTo = MapFragment.newInstance(locationService)
+                menu.findItem(R.id.navigation_filter).isVisible = true
+                if (mapFragment == null) {
+                    mapFragment = MapFragment.newInstance(locationService)
+                }
+                navigateTo = mapFragment
             }
         }
 
@@ -121,7 +126,8 @@ class MainActivity : AppCompatActivity(), GroupFragment.GroupClickListener {
     }
 
     fun swapToMap() {
-        changeFragment(MapFragment.newInstance(locationService))
+        mapFragment = MapFragment.newInstance(locationService)
+        changeFragment(mapFragment)
     }
 
     override fun onGroupSelected(group: String) {
@@ -136,6 +142,25 @@ class MainActivity : AppCompatActivity(), GroupFragment.GroupClickListener {
             fragTrans.addToBackStack("group")
             fragTrans.commit()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.settings, menu)
+        this.menu = menu!!
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.navigation_filter -> {
+                mapFragment?.createFilterDialog()
+            }
+            R.id.navigation_logout -> {
+                mAuth.signOut()
+            }
+            else -> { }
+        }
+        return true
     }
 
     class PlaceholderFragment : Fragment() {

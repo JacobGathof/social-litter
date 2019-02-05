@@ -32,7 +32,6 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         arguments.let {
             locationService = it!!.getParcelable(ARG_LOCATION)
         }
-
     }
 
     override fun onCreateView(
@@ -41,7 +40,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_map, container, false)
 
-        setHasOptionsMenu(true)
+
 
         mapFragment = rootView.map
         mapFragment.onCreate(savedInstanceState)
@@ -71,21 +70,21 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         return rootView
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.settings, menu)
-
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.navigation_filter -> {
-                createFilterDialog()
-            }
-            else -> { }
-        }
-        return true
-    }
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.settings, menu)
+//
+//        super.onCreateOptionsMenu(menu, inflater)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when (item.itemId) {
+//            R.id.navigation_filter -> {
+//                createFilterDialog()
+//            }
+//            else -> { }
+//        }
+//        return true
+//    }
 
     fun createFilterDialog(){
         val builder = AlertDialog.Builder(context!!)
