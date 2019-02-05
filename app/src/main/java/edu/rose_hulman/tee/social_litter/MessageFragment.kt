@@ -44,7 +44,7 @@ class MessageFragment : Fragment() {
         var groups = Database.user!!.groups
 
         var adapterMy = ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, groups)
-        adapterMy.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        adapterMy.setDropDownViewResource(R.layout.spinner_custom);
 
         rootView.dropdown_group.adapter = adapterMy;
 
