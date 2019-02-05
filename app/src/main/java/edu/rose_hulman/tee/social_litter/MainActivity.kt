@@ -21,6 +21,8 @@ import edu.rose_hulman.tee.social_litter.MessageFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 
+
+
 class MainActivity : AppCompatActivity(), GroupFragment.GroupClickListener {
 
     lateinit var locationService: LocationService
@@ -37,8 +39,9 @@ class MainActivity : AppCompatActivity(), GroupFragment.GroupClickListener {
         mAuth = FirebaseAuth.getInstance()
         initializeListeners()
 
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        navigation.selectedItemId = R.id.navigation_map
 
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         var manager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         locationService = LocationService()
@@ -48,7 +51,6 @@ class MainActivity : AppCompatActivity(), GroupFragment.GroupClickListener {
             var permissions = Array<String>(1){android.Manifest.permission.ACCESS_FINE_LOCATION}
             ActivityCompat.requestPermissions(this, permissions, 1)
         }
-
 
         Database.populateTestData()
     }
