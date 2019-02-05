@@ -29,6 +29,7 @@ class MapController(var map: GoogleMap, var context: Context) {
         userMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.round_gps_fixed_black_18dp))
         Database.getAllMessagesForAllGroups(this)
         Database.addNewMessageListener(this)
+        filterList = Database.user!!.groupsFilter
         //centerOnUser()
         map.setOnMarkerClickListener { marker: Marker? ->
             if (marker == null) {
@@ -107,6 +108,7 @@ class MapController(var map: GoogleMap, var context: Context) {
     fun setFilter(filter : ArrayList<String>){
         filterList.clear()
         filterList.addAll(filter)
+        Database.setFilters(filter)
     }
 
     fun updateMessageMap(){

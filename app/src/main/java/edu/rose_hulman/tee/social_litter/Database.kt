@@ -20,6 +20,7 @@ class Database {
 
         private const val USERNAME = "username"
         private const val USER_GROUP_LIST = "user_groups"
+        private const val USER_GROUP_FILTER = "user_group_filter"
 
         private const val GROUP_NAME = "groupName"
         private const val GROUP_DESC = "groupDesc"
@@ -85,7 +86,14 @@ class Database {
             var data = HashMap<String, Any>()
             data[USERNAME] = user.username
             data[USER_GROUP_LIST] = user.groups
+            data[USER_GROUP_FILTER] = user.groupsFilter
             usersRef.document(user.uid).set(data)
+        }
+
+
+        fun setFilters(filters : ArrayList<String>){
+            user!!.groupsFilter = filters
+            addUser(user!!)
         }
 
         fun addMessage(message : Message){
@@ -185,7 +193,7 @@ class Database {
                     dialog.setTitle("Welcome to Social Litter")
                         .setView(et)
                         .setPositiveButton("Submit") { _, _ ->
-                            user = User(et.text.toString(), ArrayList<String>(), uid)
+                            user = User(et.text.toString(), ArrayList<String>(), ArrayList<String>(), uid)
                             addUser(user!!)
                             activity.swapToMap()
                         }
@@ -199,6 +207,7 @@ class Database {
             return User(
                 data[USERNAME] as String,
                 data[USER_GROUP_LIST] as ArrayList<String>,
+                data[USER_GROUP_FILTER] as ArrayList<String>,
                 data.id
             )
         }
