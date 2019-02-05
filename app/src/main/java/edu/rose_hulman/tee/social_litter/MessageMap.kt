@@ -54,7 +54,7 @@ class MessageMap {
         val position = LatLng(message.location.latitude, message.location.longitude)
         if(map[key] != null) {
             val marker = gMap.addMarker(MarkerOptions().position(position).title(message.messageTitle))
-            var circle = gMap.addCircle(CircleOptions().center(position).radius(message.radius).fillColor(R.color.blue_7))
+            var circle = gMap.addCircle(CircleOptions().center(position).radius(message.radius).strokeColor(R.color.blue_6))
             map[key]!!.add(MessageMarker(message, marker, circle))
         }
     }

@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.Marker
 import com.google.firebase.firestore.GeoPoint
+import kotlinx.android.synthetic.main.fragment_map.*
 import kotlinx.android.synthetic.main.fragment_map.view.*
 
 
@@ -47,7 +48,18 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         mapFragment.onResume()
         mapFragment.getMapAsync(this)
 
+        rootView.button_center.setOnClickListener {
+            mapController?.centerOnUser()
+        }
 
+
+        rootView.button_zoom_in.setOnClickListener {
+            mapController?.zoomIn()
+        }
+
+        rootView.button_zoom_out.setOnClickListener {
+            mapController?.zoomOut()
+        }
 
         try {
             MapsInitializer.initialize(activity!!.applicationContext)

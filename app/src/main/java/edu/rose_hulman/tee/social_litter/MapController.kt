@@ -2,6 +2,7 @@ package edu.rose_hulman.tee.social_litter
 
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Camera
 import android.graphics.Color
 import android.location.Location
 import android.util.Log
@@ -21,12 +22,14 @@ class MapController(var map: GoogleMap, var context: Context) {
     var markerMap: HashMap<Message, Marker> = HashMap()
     var messageMap = MessageMap()
     var filterList = ArrayList<String>()
+    var firstPosSet = true
 
     init{
         userMarker = map.addMarker(MarkerOptions().position(userPos).title("Marker in Sydney"))
         userMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.round_gps_fixed_black_18dp))
         Database.getAllMessagesForAllGroups(this)
         Database.addNewMessageListener(this)
+        //centerOnUser()
         map.setOnMarkerClickListener { marker: Marker? ->
             if (marker == null) {
                 return@setOnMarkerClickListener false
@@ -62,12 +65,27 @@ class MapController(var map: GoogleMap, var context: Context) {
         userMarker.remove()
         userMarker = map.addMarker(MarkerOptions().position(userPos).title("Marker in Sydney"))
         userMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.round_gps_fixed_black_18dp))
-        map.addCircle(CircleOptions().center(userPos).radius(10000.0)
-            .fillColor(Color.rgb(255,200,200)).strokeColor(Color.rgb(200, 150, 150)))
+//        map.addCircle(CircleOptions().center(userPos).radius(10000.0)
+//            .fillColor(Color.rgb(255,200,200)).strokeColor(Color.rgb(200, 150, 150)))
+        if (firstPosSet) {
+            firstPosSet = false
+            centerOnUser()
+        }
     }
 
     fun centerOnUser() {
-        map.moveCamera(CameraUpdateFactory.newLatLng(userPos))
+        //map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(userPos.latitude, userPos.longitude), 17.0f))
+        map.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.builder().tilt(45.0f).target(LatLng(userPos.latitude, userPos.longitude))
+            .zoom(18.0f).build()))
+    }
+
+    fun zoomIn() {
+        map.animateCamera(CameraUpdateFactory.zoomIn())
+    }
+
+    fun zoomOut() {
+        map.animateCamera(CameraUpdateFactory.zoomOut())
+
     }
 
     fun moveUser(loc: Location) {
