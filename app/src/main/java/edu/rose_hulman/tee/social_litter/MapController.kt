@@ -23,6 +23,7 @@ class MapController(var map: GoogleMap, var context: Context) {
     var messageMap = MessageMap()
     var filterList = ArrayList<String>()
     var firstPosSet = true
+    var following = true
 
     init{
         userMarker = map.addMarker(MarkerOptions().position(userPos).title("Marker in Sydney"))
@@ -30,6 +31,11 @@ class MapController(var map: GoogleMap, var context: Context) {
         Database.getAllMessagesForAllGroups(this)
         Database.addNewMessageListener(this)
         filterList = Database.user!!.groupsFilter
+        map.setOnCameraMoveStartedListener {reason: Int ->
+            if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+                following = false
+            }
+        }
         //centerOnUser()
         map.setOnMarkerClickListener { marker: Marker? ->
             if (marker == null) {
@@ -78,6 +84,7 @@ class MapController(var map: GoogleMap, var context: Context) {
         //map.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(userPos.latitude, userPos.longitude), 17.0f))
         map.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.builder().tilt(45.0f).target(LatLng(userPos.latitude, userPos.longitude))
             .zoom(18.0f).build()))
+        this.following = true
     }
 
     fun zoomIn() {
@@ -91,6 +98,9 @@ class MapController(var map: GoogleMap, var context: Context) {
 
     fun moveUser(loc: Location) {
         moveUser(LatLng(loc.latitude, loc.longitude))
+        if (following) {
+            centerOnUser()
+        }
     }
 
     fun addMessageMarker(message: Message) {
