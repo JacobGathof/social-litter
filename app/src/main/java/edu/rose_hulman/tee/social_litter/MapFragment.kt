@@ -126,7 +126,6 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        Log.d("QQQQQ", "Map is ready")
         mMap = googleMap
         mapController = MapController(googleMap, this.context!!)
         locationService.addMap(mapController!!)

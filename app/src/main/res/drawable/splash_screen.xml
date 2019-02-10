@@ -1,0 +1,14 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+            android:opacity="opaque">
+
+    <item android:drawable="@color/blue_2"/>
+
+    <item android:height="256dp" android:width="256dp" android:gravity="center">
+
+        <bitmap
+                android:src="@drawable/icon_launcher"
+                android:gravity="clip_horizontal|clip_vertical|center|bottom"/>
+
+    </item>
+
+</layer-list>

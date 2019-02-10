@@ -11,7 +11,7 @@
     </style>
     
     <style name="AppTheme.Launcher">
-        <item name="android:windowBackground">@drawable/icon_launcher</item>
+        <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
     <style name="MenuBlackDots" parent="@style/Widget.AppCompat.ActionButton.Overflow" >
