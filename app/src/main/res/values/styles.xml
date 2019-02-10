@@ -7,10 +7,15 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="titleTextColor">@color/blue_7</item>
+        <item name="actionOverflowButtonStyle">@style/MenuBlackDots</item>
     </style>
     
     <style name="AppTheme.Launcher">
         <item name="android:windowBackground">@drawable/icon_launcher</item>
+    </style>
+
+    <style name="MenuBlackDots" parent="@style/Widget.AppCompat.ActionButton.Overflow" >
+        <item name="android:tint">@color/black</item>
     </style>
 
 

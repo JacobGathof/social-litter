@@ -39,15 +39,20 @@
                 android:background="@drawable/element_border"
         />
 
-        <Button android:id="@+id/add_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+"
-                android:layout_margin="2dp"
-                android:background="@drawable/element_border"/>
+
 
     </LinearLayout>
 
+    <ImageButton
+            android:id="@+id/add_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:src="@drawable/baseline_add_circle_outline_black_36dp"
+            android:background="@color/fui_transparent"
+            android:layout_alignTop="@id/tabs"
+            android:layout_alignRight="@id/background"
+            android:layout_margin="10dp"/>
 
     <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler"

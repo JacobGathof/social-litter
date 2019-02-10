@@ -132,7 +132,6 @@ class MapFragment : Fragment(), OnMapReadyCallback{
         locationService.addMap(mapController!!)
 
         mMap.setMinZoomPreference(mMap.minZoomLevel/4.0f)
-
     }
 
     companion object {
