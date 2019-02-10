@@ -299,6 +299,19 @@ class Database {
             addUser(user!!)
         }
 
+        fun getUsersInGroup(group: Group, frag: GroupInfoFragment){
+            var members = ArrayList<String>()
+
+            usersRef.whereArrayContains(USER_GROUP_LIST, group.groupName).get().addOnSuccessListener{querySnapshot ->
+                for(document in querySnapshot.documents){
+                    val name = document[USERNAME] as String
+                    members.add(name)
+                }
+                frag.addMembersList(members)
+            }
+
+        }
+
     }
 
 }
