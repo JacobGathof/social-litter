@@ -5,14 +5,19 @@ import android.content.Context
 import android.graphics.Camera
 import android.graphics.Color
 import android.location.Location
+import android.provider.ContactsContract
+import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.EditText
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
 import com.google.firebase.firestore.GeoPoint
+import kotlinx.android.synthetic.main.message_popup.*
 import kotlinx.android.synthetic.main.message_popup.view.*
+import kotlinx.android.synthetic.main.spinner_custom.view.*
 
 
 class MapController(var map: GoogleMap, var context: Context) {
@@ -51,10 +56,26 @@ class MapController(var map: GoogleMap, var context: Context) {
                         if(result[0] <= message.radius){
                             var builder = AlertDialog.Builder(context)
                             var rootView = LayoutInflater.from(context).inflate(R.layout.message_popup, null, false)
-                            rootView.title.text = message.messageTitle
+
+                            rootView.title.setText(message.messageTitle)
                             rootView.user_name.text = message.originalUser.toString()
-                            rootView.message_text.text = message.messageText
+                            rootView.message_text.setText(message.messageText)
                             rootView.group_name.text = message.groupName
+
+                            if (message.originalUser.equals(Database.user?.username)) {
+                                rootView.message_text.setInputType(InputType.TYPE_CLASS_TEXT)
+                                rootView.title.setInputType(InputType.TYPE_CLASS_TEXT)
+                                builder.setPositiveButton("Submit") { _,_ ->
+                                    message.messageText = rootView.message_text.text.toString()
+                                    message.messageTitle = rootView.title.text.toString()
+                                    Database.modifyMessage(message)
+                                }
+                                builder.setNegativeButton("Delete") { _,_ ->
+                                    Database.deleteMessage(message)
+                                }
+                                builder.setNeutralButton("Cancel", null)
+                            }
+
                             builder.setView(rootView)
                                 .create().show()
                             break
@@ -127,6 +148,10 @@ class MapController(var map: GoogleMap, var context: Context) {
 
     fun updateMessageMap(groupName : String, message : Message){
         messageMap.addMessage(groupName, message, map)
+    }
+
+    fun deleteMessage(groupName: String, message: Message) {
+        messageMap.deleteMessage(groupName, message)
     }
 
 }

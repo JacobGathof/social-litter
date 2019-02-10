@@ -110,6 +110,24 @@ class Database {
             messageRef.add(data)
         }
 
+        fun modifyMessage(message : Message){
+            val data = HashMap<String, Any>()
+
+            data[GROUP_NAME] = message.groupName
+            data[ORIGINAL_USER] = message.originalUser
+            data[MESSAGE_TITLE] = message.messageTitle
+            data[MESSAGE_TEXT] = message.messageText
+            data[LOCATION] = message.location
+            data[RADIUS] = message.radius
+            data[LIKES] = message.likes
+
+            messageRef.document(message.id).set(data)
+        }
+
+        fun deleteMessage(message: Message) {
+            messageRef.document(message.id).delete()
+        }
+
 
         fun addNewMessageListener(mapController : MapController){
             messageRef.addSnapshotListener{snap, _ ->
@@ -119,7 +137,11 @@ class Database {
                         val message = createMessageFromSnapshot(doc.document)
                         addMessageToMap(groupName, message)
 
-                        mapController.updateMessageMap(groupName, message)
+                        if (doc.type == DocumentChange.Type.REMOVED) {
+                            mapController.deleteMessage(groupName, message)
+                        } else {
+                            mapController.updateMessageMap(groupName, message)
+                        }
                     }
                 }
             }
@@ -170,7 +192,8 @@ class Database {
 
 
         private fun createMessageFromSnapshot(data : DocumentSnapshot) : Message{
-            return Message(
+
+            var message = Message(
                 data[GROUP_NAME] as String,
                 data[ORIGINAL_USER] as String,
                 data[MESSAGE_TITLE] as String,
@@ -179,6 +202,10 @@ class Database {
                 data[RADIUS] as Double,
                 (data[LIKES] as Long).toInt()
             )
+
+            message.id = data.id
+
+            return message
         }
 
         fun setUser(uid : String, activity: MainActivity){

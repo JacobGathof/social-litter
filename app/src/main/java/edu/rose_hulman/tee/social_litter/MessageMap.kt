@@ -40,6 +40,17 @@ class MessageMap {
         }
     }
 
+    fun deleteMessage(groupName: String, message: Message) {
+        val list = map[groupName]
+        if(list != null) {
+            for (marker in list) {
+                if (marker.message.id.equals(message.id)) {
+                    marker.remove()
+                }
+            }
+        }
+    }
+
     fun addMarkers(key : String, gMap : GoogleMap){
         map[key] = ArrayList()
         val newList = Database.getMessageList(key)

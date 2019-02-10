@@ -1,5 +1,6 @@
 package edu.rose_hulman.tee.social_litter
 
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.GeoPoint
 
 class Message(
@@ -10,5 +11,8 @@ class Message(
     var location : GeoPoint,
     var radius : Double,
     var likes : Int) {
+
+    @get:Exclude
+    var id = ""
 
 }
