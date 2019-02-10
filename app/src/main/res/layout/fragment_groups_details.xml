@@ -18,12 +18,14 @@
             android:text="Join Group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/element_border"
             />
 
     <Button android:id="@+id/groupDetailLeave"
             android:text="Leave Group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/element_border"
     />
 
 </LinearLayout>

@@ -7,12 +7,18 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.Button
 import kotlinx.android.synthetic.main.fragment_group_info.view.*
 import kotlinx.android.synthetic.main.fragment_groups.view.*
+import android.widget.LinearLayout
+
+
 
 class GroupInfoFragment : Fragment() {
 
     lateinit var group: Group
+    lateinit var rootView : View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,10 +31,12 @@ class GroupInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var rootView = inflater.inflate(R.layout.fragment_group_info, container, false)
+        rootView = inflater.inflate(R.layout.fragment_group_info, container, false)
 
         rootView.group_info_title.setText(group.groupName)
         rootView.group_info_desc.setText(group.description)
+        Database.getUsersInGroup(group, this)
+
         rootView.group_info_back.setOnClickListener {
             //activity!!.finish()
             val man = activity!!.supportFragmentManager
@@ -44,6 +52,19 @@ class GroupInfoFragment : Fragment() {
             man.popBackStack()
         }
         return rootView
+    }
+
+    fun addMembersList(members : List<String>){
+        for(s in members){
+            val params = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+            params.setMargins(8, 8, 8, 8)
+
+            var b = Button(context!!)
+            b.text = s
+            b.setPadding(8,8,8,8)
+            b.background = context!!.getDrawable(R.drawable.element_border)
+            rootView.group_members_list.addView(b, params)
+        }
     }
 
     companion object {

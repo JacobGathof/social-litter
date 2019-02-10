@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), GroupFragment.GroupClickListener {
         val loginIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
-            .setLogo(R.drawable.ic_dashboard_black_24dp)
+            .setLogo(R.drawable.icon_launcher)
             .build()
 
         startActivityForResult(loginIntent, RC_SIGN_IN)
