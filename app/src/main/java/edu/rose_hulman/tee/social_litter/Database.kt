@@ -226,7 +226,6 @@ class Database {
             )
         }
 
-        //TODO: Need to distinguish here on only groups user is in
         fun addMyGroupListener(adapter : MyGroupAdapter) {
             usersRef.document(user!!.uid).addSnapshotListener { snapshot: DocumentSnapshot?, exception: FirebaseFirestoreException? ->
                 if (exception == null) {
@@ -237,7 +236,6 @@ class Database {
             }
         }
 
-        //TODO: Need to distinguish here on only groups user is not in
         fun addNewGroupListener(adapter : NewGroupAdapter) {
             groupRef.addSnapshotListener { snapshot: QuerySnapshot?, exception: FirebaseFirestoreException? ->
                 if (exception == null && snapshot!=null) {
