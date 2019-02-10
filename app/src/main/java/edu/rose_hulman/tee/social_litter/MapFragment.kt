@@ -22,10 +22,11 @@ import kotlinx.android.synthetic.main.fragment_map.view.*
 class MapFragment : Fragment(), OnMapReadyCallback{
 
     private lateinit var mMap: GoogleMap
-    private lateinit var mapFragment: MapView
+    private var mapView: MapView? = null
     private lateinit var locationService: LocationService
     var marker: Marker? = null
     var mapController : MapController? = null
+    lateinit var viewGroup: ViewGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +41,15 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_map, container, false)
 
+        if (mapView == null) {
+            mapView = MapView(this.context)
+            mapView?.onCreate(savedInstanceState)
+            mapView?.onResume()
+            mapView?.getMapAsync(this)
+        }
 
-
-        mapFragment = rootView.map
-        mapFragment.onCreate(savedInstanceState)
-        mapFragment.onResume()
-        mapFragment.getMapAsync(this)
+        viewGroup = rootView.map as ViewGroup
+        viewGroup.addView(mapView)
 
         rootView.button_center.setOnClickListener {
             mapController?.centerOnUser()
@@ -122,6 +126,7 @@ class MapFragment : Fragment(), OnMapReadyCallback{
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        Log.d("QQQQQ", "Map is ready")
         mMap = googleMap
         mapController = MapController(googleMap, this.context!!)
         locationService.addMap(mapController!!)
@@ -145,22 +150,27 @@ class MapFragment : Fragment(), OnMapReadyCallback{
 
     override fun onResume() {
         super.onResume()
-        mapFragment.onResume()
+        //mapView?.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mapFragment.onDestroy()
+        //mapView?.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        mapFragment.onSaveInstanceState(outState)
+        mapView?.onSaveInstanceState(outState)
     }
 
     override fun onStop() {
         super.onStop()
-        mapFragment.onStop()
+        //mapView?.onStop()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewGroup.removeAllViews()
     }
 
 }

@@ -8,6 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="titleTextColor">@color/blue_7</item>
     </style>
+    
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/icon_launcher</item>
+    </style>
 
 
 </resources>

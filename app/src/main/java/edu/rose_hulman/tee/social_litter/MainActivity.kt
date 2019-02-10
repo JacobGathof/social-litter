@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity(), GroupFragment.GroupClickListener {
             if(user != null){
                 Database.setUser(user.uid, this)
             }else{
+                setTheme(R.style.AppTheme)
                 launchLoginScreen()
             }
         }
@@ -107,10 +108,8 @@ class MainActivity : AppCompatActivity(), GroupFragment.GroupClickListener {
             }
             R.id.navigation_map -> {
                 menu.findItem(R.id.navigation_filter).isVisible = true
-                if (mapFragment == null) {
-                    mapFragment = MapFragment.newInstance(locationService)
-                }
                 navigateTo = mapFragment
+                mapFragment?.mapController?.centerOnUser()
             }
         }
 
@@ -128,7 +127,10 @@ class MainActivity : AppCompatActivity(), GroupFragment.GroupClickListener {
     }
 
     fun swapToMap() {
-        mapFragment = MapFragment.newInstance(locationService)
+        setTheme(R.style.AppTheme)
+        if (mapFragment == null) {
+            mapFragment = MapFragment.newInstance(locationService)
+        }
         changeFragment(mapFragment)
     }
 
