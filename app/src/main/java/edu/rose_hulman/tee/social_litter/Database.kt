@@ -42,6 +42,7 @@ class Database {
 
         private var groupMessageMap = HashMap<String, ArrayList<Message>>()
         var user : User? = null
+        private var mapController : MapController? = null
 
         fun populateTestData(){
 //            usersRef.get().addOnSuccessListener { snap->
@@ -130,6 +131,7 @@ class Database {
 
 
         fun addNewMessageListener(mapController : MapController){
+            this.mapController = mapController
             messageRef.addSnapshotListener{snap, _ ->
                 if(snap != null) {
                     for (doc in snap.documentChanges) {
@@ -173,21 +175,6 @@ class Database {
 
         fun getMessageList(key : String) : ArrayList<Message>? {
             return groupMessageMap[key]
-        }
-
-        fun getAllMessagesByGroupName(groupName : String, mapController : MapController){
-
-            messageRef.whereEqualTo(GROUP_NAME, groupName).get().addOnSuccessListener { snap ->
-
-                val messages = ArrayList<Message>()
-                for(data in snap.documents){
-
-                    val message = createMessageFromSnapshot(data)
-                    messages.add(message)
-
-                    mapController.addMessageMarker(message)
-                }
-            }
         }
 
 
@@ -296,6 +283,9 @@ class Database {
 
         fun leaveGroup(groupName : String){
             user!!.groups.remove(groupName)
+            user!!.groupsFilter.remove(groupName)
+            mapController!!.setFilter(user!!.groupsFilter)
+            mapController!!.updateMessageMap()
             addUser(user!!)
         }
 
