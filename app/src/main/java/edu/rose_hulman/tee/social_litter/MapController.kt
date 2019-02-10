@@ -64,7 +64,9 @@ class MapController(var map: GoogleMap, var context: Context) {
 
                             if (message.originalUser.equals(Database.user?.username)) {
                                 rootView.message_text.setInputType(InputType.TYPE_CLASS_TEXT)
+                                rootView.message_text.setEnabled(true)
                                 rootView.title.setInputType(InputType.TYPE_CLASS_TEXT)
+                                rootView.title.setEnabled(true)
                                 builder.setPositiveButton("Submit") { _,_ ->
                                     message.messageText = rootView.message_text.text.toString()
                                     message.messageTitle = rootView.title.text.toString()
