@@ -46,6 +46,7 @@ class MyGroupAdapter(var context: Context, var fragment: GroupFragment) : Recycl
     override fun removeGroup(pos: Int) {
         if (isActive) {
             Database.leaveGroup(groups[pos])
+            groups.removeAt(pos)
         }
         fragment.refresh()
     }
