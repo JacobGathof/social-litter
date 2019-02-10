@@ -43,18 +43,20 @@ class GroupFragment : Fragment(){
         var itemTouchHelper = ItemTouchHelper(drag)
         itemTouchHelper.attachToRecyclerView(recycler)
 
+        rootView.join_toggle.setBackgroundColor(context!!.resources.getColor(R.color.blue_2))
+
         rootView.join_toggle.setOnClickListener {
             recycler.adapter = adapterNew
-            rootView.join_toggle.setBackgroundColor(context!!.resources.getColor(R.color.blue_5))
-            rootView.my_groups.setBackgroundColor(context!!.resources.getColor(R.color.blue_3))
+            rootView.join_toggle.setBackgroundColor(context!!.resources.getColor(R.color.blue_2))
+            rootView.my_groups.background = context!!.resources.getDrawable(R.drawable.element_border)
             rootView.add_group.visibility = View.VISIBLE
             adapterMy.isActive = false
         }
 
         rootView.my_groups.setOnClickListener {
             recycler.adapter = adapterMy
-            rootView.join_toggle.setBackgroundColor(context!!.resources.getColor(R.color.blue_3))
-            rootView.my_groups.setBackgroundColor(context!!.resources.getColor(R.color.blue_5))
+            rootView.my_groups.setBackgroundColor(context!!.resources.getColor(R.color.blue_2))
+            rootView.join_toggle.background = context!!.resources.getDrawable(R.drawable.element_border)
             rootView.add_group.visibility = View.INVISIBLE
             adapterMy.isActive = true
         }
@@ -64,7 +66,8 @@ class GroupFragment : Fragment(){
             val builder = AlertDialog.Builder(activity)
             val view = LayoutInflater.from(activity).inflate(R.layout.add_new_group, null, false)
             builder.setView(view)
-            builder.setTitle("Add new group")
+            builder.setTitle("Add a new group")
+
 
             builder.setPositiveButton(android.R.string.ok){dialog, which ->
                 val name = view.add_group_name.text.toString()
@@ -77,7 +80,9 @@ class GroupFragment : Fragment(){
 
             }
 
-            builder.create().show()
+            val b = builder.create()
+            b.window?.setBackgroundDrawable(context!!.getDrawable(R.drawable.element_border))
+            b.show()
         }
 
         return rootView
